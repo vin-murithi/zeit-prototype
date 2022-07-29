@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:zeit/screens/home/home_screen.dart';
-import 'controllers/zeit_controller.dart';
 
 void main() {
   runApp(MyApp());
@@ -17,6 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
+      // home: HomeScreen(),
       home: HomeScreen(),
     );
   }
