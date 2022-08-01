@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:zeit/constants.dart';
 import 'dart:async';
+import 'package:zeit/constants.dart';
+import 'package:zeit/controllers/database.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -10,10 +11,10 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  int shortBreak = 2;
-  int longbreak = 3;
-  int session = 4;
-  int time = 4;
+  int shortBreak = 1;
+  int longbreak = 2;
+  int session = 2;
+  int time = 2;
   int currentSessionCount = 0;
   DateTime currentSessionStart = DateTime.now();
   bool pomodoroInSession = false;
@@ -53,14 +54,19 @@ class _BodyState extends State<Body> {
       //sessionEnd
       DateTime taskSessionEnd = DateTime.now();
       //Format into JSON
-      var sessionData = {
-        'task': taskName,
-        'start': taskSessionStart,
-        'end': taskSessionEnd,
-        'sessionCount': currentSessionCount
+      Map sessionData = {
+        taskName: [
+          {
+            'start': taskSessionStart.toString(),
+            'end': taskSessionEnd.toString(),
+            'sessionCount': currentSessionCount
+          }
+        ]
       };
-      //Print
-      print(sessionData);
+      //Add Session to database
+      Database()
+          .writeDatabase(sessionData)
+          .then((value) => print(value.toString()));
     }
 
     //Manage pomodoro session
@@ -82,6 +88,13 @@ class _BodyState extends State<Body> {
               sessionOngoing = false;
               isOnBreak = true;
             });
+            if (currentSessionCount == 4) {
+              print('pomodoro complete');
+              setState(() {
+                currentSessionCount = 0;
+                pomodoroInSession = false;
+              });
+            }
             logSession();
           } else if (period == shortBreak) {
             print('break');
@@ -181,11 +194,6 @@ class _BodyState extends State<Body> {
         buttons = Container(
           height: deviceHeight * 0.3,
           width: deviceWidth,
-          decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [kPrimaryColor, Colors.white])),
           child: Column(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.end,
@@ -208,11 +216,6 @@ class _BodyState extends State<Body> {
         buttons = Container(
           height: deviceHeight * 0.3,
           width: deviceWidth,
-          decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [kPrimaryColor, Colors.white])),
           child: Column(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.end,
@@ -250,11 +253,6 @@ class _BodyState extends State<Body> {
         buttons = Container(
           height: deviceHeight * 0.3,
           width: deviceWidth,
-          decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [kPrimaryColor, Colors.white])),
           child: Column(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.end,
@@ -292,11 +290,6 @@ class _BodyState extends State<Body> {
         buttons = Container(
           height: deviceHeight * 0.3,
           width: deviceWidth,
-          decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [kPrimaryColor, Colors.white])),
           child: Column(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.end,
@@ -325,7 +318,6 @@ class _BodyState extends State<Body> {
         //Current Task
         Container(
           height: deviceHeight * 0.08,
-          color: kPrimaryColor,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
@@ -346,7 +338,6 @@ class _BodyState extends State<Body> {
             alignment: Alignment.center,
             height: deviceHeight * 0.35,
             width: deviceWidth,
-            color: kPrimaryColor,
             child: CircleAvatar(
               backgroundColor: kCountDownDial,
               radius: 250,
@@ -361,7 +352,6 @@ class _BodyState extends State<Body> {
             alignment: Alignment.center,
             height: deviceHeight * 0.10,
             width: deviceWidth,
-            color: kPrimaryColor,
             child: Text(
               '$currentSessionCount of 4',
               style: const TextStyle(
@@ -374,7 +364,6 @@ class _BodyState extends State<Body> {
           Container(
             height: deviceHeight * 0.07,
             width: deviceWidth,
-            color: kPrimaryColor,
             child: AnimatedOpacity(
               duration: const Duration(milliseconds: 500),
               opacity: pomodoroInSession ? 0 : 1,

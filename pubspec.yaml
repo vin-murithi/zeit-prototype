@@ -29,6 +29,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  #For getting defaul App Data folders in flutter
+  path_provider: ^2.0.11
+  # intl: ^0.17.0 for international localization and dates stuff
 
 
   # The following adds the Cupertino Icons font to your application.

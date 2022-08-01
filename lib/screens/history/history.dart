@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:zeit/constants.dart';
 import 'package:zeit/screens/history/summary.dart';
 import 'package:zeit/screens/history/tasks.dart';
+import 'package:zeit/controllers/database.dart';
 
 class HistoryHome extends StatefulWidget {
   const HistoryHome({Key? key}) : super(key: key);
@@ -14,6 +15,16 @@ class HistoryHome extends StatefulWidget {
 //add tab controller
 //add TabBarView pages as body
 class _HistoryHomeState extends State<HistoryHome> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // Database().deleteFile().then((value) => {
+    //       if (value == 0) {print('failed')}
+    //     });
+    Database().readDatabase().then((value) => print(value.toString()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
