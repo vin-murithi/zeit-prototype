@@ -15,6 +15,7 @@ class HistoryHome extends StatefulWidget {
 //add tab controller
 //add TabBarView pages as body
 class _HistoryHomeState extends State<HistoryHome> {
+  late Map historyData;
   @override
   void initState() {
     // TODO: implement initState
@@ -22,7 +23,7 @@ class _HistoryHomeState extends State<HistoryHome> {
     // Database().deleteFile().then((value) => {
     //       if (value == 0) {print('failed')}
     //     });
-    Database().readDatabase().then((value) => print(value.toString()));
+    Database().readDatabase().then((value) => {historyData = value});
   }
 
   @override
@@ -49,6 +50,7 @@ class _HistoryHomeState extends State<HistoryHome> {
               unselectedLabelColor: kTextColor,
               indicator: BoxDecoration(
                 color: kTertiaryColor,
+                borderRadius: BorderRadius.all(Radius.circular(5.0)),
               ),
               tabs: [
                 Tab(

@@ -23,6 +23,8 @@ class _BodyState extends State<Body> {
   bool isPaused = false;
   bool isOnBreak = false;
   bool breakOngoing = false;
+  bool taskListDisplayed = true;
+  String taskInputFieldValue = '';
 
   //Tasklist Options
   List<String> taskList = [
@@ -312,6 +314,60 @@ class _BodyState extends State<Body> {
       return buttons;
     }
 
+    Widget getTaskListWidget() {
+      if (taskListDisplayed) {
+        return Container(
+          height: deviceHeight * 0.07,
+          width: deviceWidth * 0.8,
+          child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: taskList.length,
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedTask = index;
+                      });
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: kDefaultPadding),
+                      child: Center(
+                        child: Text(
+                          taskList[index],
+                          style: TextStyle(
+                            fontSize: selectedTask == index ? 27.0 : 25.0,
+                            fontWeight: selectedTask == index
+                                ? FontWeight.w500
+                                : FontWeight.w400,
+                            color: index == selectedTask
+                                ? Colors.black
+                                : kTextColor,
+                          ),
+                        ),
+                      ),
+                    ));
+              }),
+        );
+      } else {
+        return Container(
+            height: deviceHeight * 0.07,
+            width: deviceWidth * 0.8,
+            child: TextField(
+              onChanged: (text) {
+                setState(() {
+                  taskInputFieldValue = text;
+                });
+              },
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Add new Task',
+                hintText: 'Add a new Task',
+              ),
+            ));
+      }
+    }
+
     //Body Widget tree
     return Column(
       children: <Widget>[
@@ -361,39 +417,36 @@ class _BodyState extends State<Body> {
             ),
           ),
           //TaskList
-          Container(
-            height: deviceHeight * 0.07,
-            width: deviceWidth,
-            child: AnimatedOpacity(
-              duration: const Duration(milliseconds: 500),
-              opacity: pomodoroInSession ? 0 : 1,
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: taskList.length,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            selectedTask = index;
-                          });
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: kDefaultPadding),
-                          child: Text(
-                            taskList[index],
-                            style: TextStyle(
-                              fontSize: selectedTask == index ? 27.0 : 25.0,
-                              fontWeight: selectedTask == index
-                                  ? FontWeight.w500
-                                  : FontWeight.w400,
-                              color: index == selectedTask
-                                  ? Colors.black
-                                  : kTextColor,
-                            ),
-                          ),
-                        ));
-                  }),
+          AnimatedOpacity(
+            duration: const Duration(milliseconds: 500),
+            opacity: pomodoroInSession ? 0 : 1,
+            child: Row(
+              children: [
+                getTaskListWidget(),
+                Container(
+                  width: deviceWidth * 0.2,
+                  child: Center(
+                      child: GestureDetector(
+                          onTap: () {
+                            if (!taskListDisplayed) {
+                              taskList.insert(0, taskInputFieldValue);
+                              print('add $taskInputFieldValue');
+                            }
+                            setState(() {
+                              if (taskListDisplayed) {
+                                taskListDisplayed = false;
+                              } else {
+                                taskListDisplayed = true;
+                              }
+                            });
+                          },
+                          child: CircleAvatar(
+                              backgroundColor:
+                                  taskListDisplayed ? kTertiaryColor : kSuccess,
+                              foregroundColor: Colors.white,
+                              child: Icon(Icons.add)))),
+                )
+              ],
             ),
           ),
         ]),
