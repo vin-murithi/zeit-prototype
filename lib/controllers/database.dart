@@ -12,7 +12,14 @@ class Database {
 
 //Create a reference of files location
   Future<File> get _localFile async {
-    String fileName = 'zeit_json.json';
+    String fileName = 'zeit_task_log.json';
+    final path = await _localPath;
+    return File('$path/$fileName');
+  }
+
+//Create a reference of taskList file
+  Future<File> get _localTaskFile async {
+    String fileName = 'zeit_task_list.json';
     final path = await _localPath;
     return File('$path/$fileName');
   }
@@ -23,7 +30,10 @@ class Database {
     late String taskName;
     late List taskInfo;
     late List dbList;
-    late Map dbData;
+    if (!file.existsSync()) {
+      print("File does not Exist: ${file.absolute}");
+      file.writeAsString('{}');
+    }
 
     //Get key and value from session data
     sessionData.forEach((key, value) {
@@ -44,18 +54,25 @@ class Database {
       database[taskName] = [taskInfo[0]];
       print('database value for $taskName is ${database[taskName]}');
     }
+    // String toDatabase = json.encode(database);
+    String toJson() => json.encode(database);
 
     // Write the file and return it
-    return file.writeAsString(jsonEncode(database));
+    return file.writeAsString(toJson());
   }
 
 //Read data from file
   Future<Map> readDatabase() async {
     try {
       final file = await _localFile;
+      if (!file.existsSync()) {
+        print("File does not Exist: ${file.absolute}");
+        file.writeAsString('{}');
+      }
 
       // Read the file
       final contents = await file.readAsString();
+      print(contents);
 
       return jsonDecode(contents);
     } catch (e) {
