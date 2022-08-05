@@ -10,17 +10,19 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildAppBar(context),
-      body: Container(
-          decoration: const BoxDecoration(
-              gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              kPrimaryColor,
-              Color.fromARGB(255, 255, 255, 255),
-            ],
-          )),
-          child: const SafeArea(child: SingleChildScrollView(child: Body()))),
+      body: SafeArea(
+        child: Container(
+            decoration: const BoxDecoration(
+                gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                kPrimaryColor,
+                Color.fromARGB(255, 255, 255, 255),
+              ],
+            )),
+            child: SingleChildScrollView(child: Body())),
+      ),
     );
   }
 

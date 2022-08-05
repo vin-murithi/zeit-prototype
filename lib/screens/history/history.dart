@@ -20,9 +20,6 @@ class _HistoryHomeState extends State<HistoryHome> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // Database().deleteFile().then((value) => {
-    //       if (value == 0) {print('failed')}
-    //     });
     Database().readDatabase().then((value) => {historyData = value});
   }
 

@@ -27,16 +27,41 @@ class _BodyState extends State<Body> {
   String taskInputFieldValue = '';
 
   //Tasklist Options
-  List<String> taskList = [
+  List taskList = [
     'Default',
-    'Piano',
-    'Study',
-    'Design',
-    'German',
-    'Soccer',
-    'Sound Design'
   ];
   int selectedTask = 0;
+
+  //Save new added task
+  void saveTask(newTask) async {
+    Map newTaskMap = {'New Task': newTask.toString()};
+    await Database2().writeDatabase(newTaskMap).then((value) {
+      getTaskList();
+    });
+  }
+
+  //Get Task List
+  void getTaskList() async {
+    await Database2().readDatabase().then((value) {
+      Map taskListMap = value;
+      taskListMap.forEach((key, value) {
+        List taskListList = value;
+
+        setState(() {
+          taskList = taskListList;
+          taskList.insert(0, 'Default');
+
+          selectedTask = 0;
+        });
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getTaskList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +115,7 @@ class _BodyState extends State<Body> {
               sessionOngoing = false;
               isOnBreak = true;
             });
-            if (currentSessionCount == 4) {
+            if (currentSessionCount > 4) {
               print('pomodoro complete');
               setState(() {
                 currentSessionCount = 0;
@@ -194,7 +219,7 @@ class _BodyState extends State<Body> {
       Widget buttons = const Text('Seems to Be an Error');
       if (!sessionOngoing && !isOnBreak) {
         buttons = Container(
-          height: deviceHeight * 0.3,
+          height: deviceHeight * 0.28,
           width: deviceWidth,
           child: Column(
             mainAxisSize: MainAxisSize.max,
@@ -216,7 +241,7 @@ class _BodyState extends State<Body> {
         );
       } else if (sessionOngoing && !isOnBreak) {
         buttons = Container(
-          height: deviceHeight * 0.3,
+          height: deviceHeight * 0.28,
           width: deviceWidth,
           child: Column(
             mainAxisSize: MainAxisSize.max,
@@ -253,7 +278,7 @@ class _BodyState extends State<Body> {
         );
       } else if (breakOngoing) {
         buttons = Container(
-          height: deviceHeight * 0.3,
+          height: deviceHeight * 0.28,
           width: deviceWidth,
           child: Column(
             mainAxisSize: MainAxisSize.max,
@@ -290,7 +315,7 @@ class _BodyState extends State<Body> {
         );
       } else if (isOnBreak && !sessionOngoing) {
         buttons = Container(
-          height: deviceHeight * 0.3,
+          height: deviceHeight * 0.28,
           width: deviceWidth,
           child: Column(
             mainAxisSize: MainAxisSize.max,
@@ -429,7 +454,8 @@ class _BodyState extends State<Body> {
                       child: GestureDetector(
                           onTap: () {
                             if (!taskListDisplayed) {
-                              taskList.insert(0, taskInputFieldValue);
+                              saveTask(taskInputFieldValue);
+                              // taskList.insert(0, taskInputFieldValue);
                               print('add $taskInputFieldValue');
                             }
                             setState(() {

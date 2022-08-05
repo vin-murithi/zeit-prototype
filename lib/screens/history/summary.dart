@@ -83,7 +83,7 @@ class _SummaryState extends State<Summary> {
                   ),
                   color: kCardColor,
                   child: SizedBox(
-                    width: 150,
+                    width: MediaQuery.of(context).size.width * 0.4,
                     height: 120,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -106,7 +106,7 @@ class _SummaryState extends State<Summary> {
                   ),
                   color: kCardColor,
                   child: SizedBox(
-                    width: 150,
+                    width: MediaQuery.of(context).size.width * 0.4,
                     height: 120,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -125,7 +125,7 @@ class _SummaryState extends State<Summary> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+            padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
             child: Card(
               elevation: 5,
               shadowColor: Colors.black,
@@ -134,7 +134,8 @@ class _SummaryState extends State<Summary> {
               ),
               color: kCardColor,
               child: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.8,
+                width: MediaQuery.of(context).size.width * 0.9,
+                height: MediaQuery.of(context).size.height * 0.4,
                 child: PieChart(
                   dataMap: pieChartData,
                   colorList: pieColorList,
@@ -150,8 +151,8 @@ class _SummaryState extends State<Summary> {
                     legendTextStyle: TextStyle(
                       fontSize: 18,
                     ),
-                    legendPosition: LegendPosition.bottom,
-                    showLegendsInRow: true,
+                    legendPosition: LegendPosition.right,
+                    showLegendsInRow: false,
                   ),
                 ),
               ),
