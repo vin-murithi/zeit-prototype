@@ -23,6 +23,16 @@ Improve fonts: session counter and countdown dial, buttons and cards
 Improve cards: spacing, color, elevation [create a standard]
 Improve listItems: spacing, color, elevation [create a standard]
 Improve Buttons: Sizing, color, elevation [create a standard]
+    -Primary acttion buttons
+    -Primary feature buttons
+Featureset
+Calendar
+    -Add past sessions to calendar
+    -Enable clicking on date to view sessions done
+Sounds
+    -Add notifications for events sessions and breaks
+
+
 ******************************************************************
 Documentation.
 -main.dart - entry of app

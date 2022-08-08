@@ -15,12 +15,19 @@ class _TaskHistoryState extends State<TaskHistory> {
   String taskName = 'TaskName';
   String firstEntryDateString = 'loading...';
   String lastEntryDateString = 'loading...';
+  String theSelectedDayString = '';
   Map firstEntry = {};
+  //Day selected by user on calendar
+  DateTime? theSelectedDay;
+  //Calendar span
   DateTime? firstEntryDate;
   DateTime? lastEntryDate;
   Map lastEntry = {};
   var entryCount = 0;
+  //A list of sessions datetime
   List<DateTime> datesList = [];
+  //List of end time of sessions in a selected day
+  List<String>? listOfSessions;
   @override
   void initState() {
     // TODO: implement initState
@@ -30,7 +37,7 @@ class _TaskHistoryState extends State<TaskHistory> {
     setState(() {
       for (var i = 0; i < taskSessions.length; i++) {
         datesList.add(DateTime.tryParse(taskSessions[i]['end'])!);
-        print(datesList);
+        // print('datelist: $datesList');
       }
       firstEntry = taskSessions[0];
       lastEntry = taskSessions[taskSessions.length - 1];
@@ -43,10 +50,43 @@ class _TaskHistoryState extends State<TaskHistory> {
       entryCount = widget.taskData.values.toList().first.length;
       taskName = widget.taskData.keys.toList().first;
     });
+    // print('task sessions: $taskSessions');
   }
 
-  List returnDateList(day) {
+  List returnDateList() {
     return datesList;
+  }
+
+  //Return the a day's session activity as a list of session stop times.
+  List getDaySessionActivity(selectedDay) {
+    DateTime selectedDate = DateUtils.dateOnly(selectedDay);
+    List<String> tlistOfSessions = [];
+    datesList.forEach((element) {
+      DateTime sessionDate = DateUtils.dateOnly(element);
+      if (sessionDate == selectedDate) {
+        String sessionTime = '${element.hour}:${element.minute}';
+        tlistOfSessions.add(sessionTime);
+      }
+    });
+    setState(() {
+      listOfSessions = tlistOfSessions;
+      theSelectedDay = selectedDay;
+      entryCount = tlistOfSessions.length;
+    });
+    print(listOfSessions);
+    return tlistOfSessions;
+  }
+
+  //Return bottom additional information
+  Widget getClickedDateString() {
+    DateTime ttheSelectedDay = theSelectedDay ?? DateTime.now();
+    theSelectedDayString = DateFormat(DateFormat.YEAR_ABBR_MONTH_WEEKDAY_DAY)
+        .format(ttheSelectedDay);
+    if (theSelectedDay != null) {
+      return Text('on $theSelectedDayString');
+    } else {
+      return const Text('');
+    }
   }
 
   @override
@@ -94,12 +134,40 @@ class _TaskHistoryState extends State<TaskHistory> {
                     elevation: 2,
                     color: kCardColor,
                     child: TableCalendar(
+                      calendarBuilders: CalendarBuilders(
+                        defaultBuilder: (
+                          context,
+                          day,
+                          focusedDay,
+                        ) {
+                          for (DateTime d in returnDateList()) {
+                            if (day.day == d.day &&
+                                day.month == d.month &&
+                                day.year == d.year) {
+                              return CircleAvatar(
+                                backgroundColor: kSuccess,
+                                maxRadius: 20,
+                                child: Center(
+                                  child: Text(
+                                    '${day.day}',
+                                    style: const TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                              );
+                            }
+                          }
+                          return null;
+                        },
+                      ),
                       shouldFillViewport: true,
                       focusedDay: DateTime.now(),
                       firstDay: DateTime.now()
                           .subtract(const Duration(days: (365 * 10))),
                       lastDay:
                           DateTime.now().add(const Duration(days: (365 * 10))),
+                      onDaySelected: (selectedDay, focusedDay) {
+                        getDaySessionActivity(selectedDay);
+                      },
                       headerStyle: const HeaderStyle(
                         formatButtonVisible: false,
                         titleCentered: true,
@@ -131,7 +199,7 @@ class _TaskHistoryState extends State<TaskHistory> {
                           ),
                           SizedBox(
                             width: MediaQuery.of(context).size.width * 0.4,
-                            height: 80,
+                            height: 100,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -141,6 +209,7 @@ class _TaskHistoryState extends State<TaskHistory> {
                                   textScaleFactor: 2,
                                 )),
                                 const Text('Total Hours Invested'),
+                                getClickedDateString(),
                               ],
                             ),
                           ),
