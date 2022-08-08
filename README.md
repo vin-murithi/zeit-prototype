@@ -27,11 +27,15 @@ Improve Buttons: Sizing, color, elevation [create a standard]
     -Primary feature buttons
 Featureset
 Calendar
-    -Add past sessions to calendar
-    -Enable clicking on date to view sessions done
+    -Add past sessions to calendar:)
+    -Enable clicking on date to view sessions done:)
 Sounds
     -Add notifications for events sessions and breaks
-
+Delete a task
+    -remove it from taskList and session map:)
+    -present confirmation dialog
+    -show success status notification
+    -refresh task List
 
 ******************************************************************
 Documentation.

@@ -78,6 +78,29 @@ class Database {
     }
   }
 
+//Delete a task and its sessions.
+  Future<int> deleteTask(taskName) async {
+    final file = await _localFile;
+
+    if (!file.existsSync()) {
+      print("File does not Exist: ${file.absolute}");
+      file.writeAsString('{}');
+    }
+
+    //get database records
+    var database = await readDatabase();
+    database.removeWhere(((key, value) => key == taskName));
+    // String toDatabase = json.encode(database);
+    String toJson() => json.encode(database);
+
+    try {
+      file.writeAsString(toJson());
+      return 1;
+    } catch (e) {
+      return 0;
+    }
+  }
+
 //Delete File
   Future<int> deleteFile() async {
     try {
@@ -164,7 +187,7 @@ class Database2 {
     }
   }
 
-//Delete File
+//Delete the whole database task File
   Future<int> deleteFile() async {
     try {
       final file = await _localTaskFile;

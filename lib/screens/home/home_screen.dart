@@ -395,15 +395,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: buildAppBar(context),
       body: SafeArea(
         child: Container(
-            decoration: const BoxDecoration(
-                gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                kPrimaryColor,
-                Color.fromARGB(255, 255, 255, 255),
-              ],
-            )),
+            color: kPrimaryColor,
             child: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
@@ -418,14 +410,26 @@ class _HomeScreenState extends State<HomeScreen> {
                             alignment: Alignment.center,
                             height: deviceHeight * 0.45,
                             width: deviceWidth,
-                            child: CircleAvatar(
-                              backgroundColor: kCountDownDial,
-                              radius: 250,
-                              child: Text(
-                                '$minutes:$seconds',
-                                style: const TextStyle(
-                                  fontSize: 80.0,
-                                  color: kTextColor,
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                      blurRadius: 10,
+                                      color: Color.fromARGB(255, 218, 218, 218),
+                                      spreadRadius: 3)
+                                ],
+                              ),
+                              child: CircleAvatar(
+                                backgroundColor: kCountDownDial,
+                                radius: 250,
+                                child: Text(
+                                  '$minutes:$seconds',
+                                  style: const TextStyle(
+                                    fontSize: 80.0,
+                                    color: kTextColor,
+                                  ),
                                 ),
                               ),
                             ),

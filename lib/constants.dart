@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
 //General
-const kTextColor = Color.fromRGBO(119, 116, 116, 1);
-const kPrimaryColor = Color.fromRGBO(205, 228, 255, 1);
+//Color(0xff050a21);
+const kTextColor = Color.fromARGB(255, 59, 59, 61);
+const kPrimaryColor = Color(0xffF2F2F2);
 const kSecondaryColor = Color.fromRGBO(119, 116, 116, 1);
-const kTertiaryColor = Color.fromRGBO(0, 76, 123, 1);
+const kTertiaryColor = Color(0xff353E58);
 const kDefaultPadding = 20.0;
-const kCardColor = Color.fromRGBO(217, 241, 255, 1);
+const kCardColor = Color(0xffFFFFFF);
 const kSuccess = Color(0xff5cb85c);
 const kDanger = Color(0xffC10000);
 //Home Page

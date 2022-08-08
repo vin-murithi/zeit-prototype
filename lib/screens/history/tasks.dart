@@ -31,20 +31,17 @@ class _TasksState extends State<Tasks> {
   //Method to get tasks
   Future<List> loadTasks() async {
     await Database().readDatabase().then((value) {
-      // print('raw db: $value');
       sortTaskMap(value);
       value.entries.forEach((e) => taskHistoryList.add({e.key: e.value}));
       setState(() {
         database = taskHistoryList;
       });
     });
-    print('task hist list: $taskHistoryList');
     return taskHistoryList;
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     loadTasks();
   }
@@ -53,7 +50,7 @@ class _TasksState extends State<Tasks> {
   Widget build(BuildContext context) {
     if (database != null) {
       return Padding(
-        padding: const EdgeInsets.fromLTRB(5, 10, 5, 0),
+        padding: const EdgeInsets.fromLTRB(5, 15, 5, 0),
         child: ListView.builder(
             itemCount: taskHistoryList.length,
             itemBuilder: (BuildContext context, int index) {

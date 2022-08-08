@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 import 'package:zeit/constants.dart';
+import 'package:zeit/controllers/database.dart';
 
 class TaskHistory extends StatefulWidget {
   final Map taskData;
@@ -87,6 +88,17 @@ class _TaskHistoryState extends State<TaskHistory> {
     } else {
       return const Text('');
     }
+  }
+
+  //Delete Task
+  void deleteTask() async {
+    print('delete $taskName');
+    int returnStatus = await Database().deleteTask(taskName);
+    if (returnStatus == 1) {
+      print('$taskName deleted successfully');
+      Navigator.pop(context);
+    }
+    print('Error occured while deleting task');
   }
 
   @override
@@ -226,7 +238,7 @@ class _TaskHistoryState extends State<TaskHistory> {
                               onPrimary: Colors.white,
                             ),
                             onPressed: () {
-                              print('Delete Task');
+                              deleteTask();
                             },
                             child: const Text(
                               'Delete',

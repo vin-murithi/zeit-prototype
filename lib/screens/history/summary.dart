@@ -167,6 +167,7 @@ class _SummaryState extends State<Summary> {
                 child: Column(
                   children: [
                     Container(
+                      width: MediaQuery.of(context).size.width * 0.9,
                       decoration: const BoxDecoration(
                           border: Border(
                         bottom: BorderSide(color: kTextColor),
@@ -181,7 +182,7 @@ class _SummaryState extends State<Summary> {
                       child: PieChart(
                         dataMap: pieChartData,
                         colorList: pieColorList,
-                        chartRadius: MediaQuery.of(context).size.width * 0.7,
+                        chartRadius: MediaQuery.of(context).size.width * 0.6,
                         chartValuesOptions: const ChartValuesOptions(
                           showChartValueBackground: false,
                           showChartValues: true,
