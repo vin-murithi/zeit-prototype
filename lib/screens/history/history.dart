@@ -30,7 +30,7 @@ class _HistoryHomeState extends State<HistoryHome> {
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
+            icon: const Icon(Icons.chevron_left),
             onPressed: () {
               Navigator.pop(context);
             },
@@ -45,9 +45,9 @@ class _HistoryHomeState extends State<HistoryHome> {
           ),
           bottom: const TabBar(
               unselectedLabelColor: kTextColor,
+              indicatorSize: TabBarIndicatorSize.tab,
               indicator: BoxDecoration(
                 color: kTertiaryColor,
-                borderRadius: BorderRadius.all(Radius.circular(5.0)),
               ),
               tabs: [
                 Tab(

@@ -16,15 +16,29 @@ class _TasksState extends State<Tasks> {
   Map taskData = {};
   var taskHistoryList = [];
   List? database;
+  //sort Map
+  Map sortTaskMap(taskMap) {
+    Map map = taskMap;
+    var mapEntries = map.entries.toList()
+      ..sort((b, a) => a.value.length.compareTo(b.value.length));
+
+    map
+      ..clear()
+      ..addEntries(mapEntries);
+    return map;
+  }
 
   //Method to get tasks
   Future<List> loadTasks() async {
     await Database().readDatabase().then((value) {
+      // print('raw db: $value');
+      sortTaskMap(value);
       value.entries.forEach((e) => taskHistoryList.add({e.key: e.value}));
       setState(() {
         database = taskHistoryList;
       });
     });
+    print('task hist list: $taskHistoryList');
     return taskHistoryList;
   }
 
@@ -47,6 +61,7 @@ class _TasksState extends State<Tasks> {
               late String taskName;
               late List taskSessions;
               late int sessionCount;
+
               taskMap.forEach(
                 (key, value) {
                   taskName = key;

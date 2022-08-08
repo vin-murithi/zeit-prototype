@@ -23,7 +23,11 @@ class _SummaryState extends State<Summary> {
     const Color(0xFF004C7B),
     const Color(0xFF0092FC),
     const Color(0xFF777474),
-    const Color(0xFFBBE7FF)
+    const Color(0xFFBBE7FF),
+    const Color.fromARGB(255, 32, 32, 32),
+    const Color.fromARGB(255, 152, 225, 243),
+    const Color.fromARGB(255, 48, 71, 77),
+    const Color.fromARGB(255, 19, 28, 31),
   ];
 
   //Method to get tasks
@@ -37,11 +41,36 @@ class _SummaryState extends State<Summary> {
     return taskHistoryList;
   }
 
-  //Get total sessions and hours for all tasks
-  void getHoursSessions() {}
+  //Get top three Tasks to put into pie chart
+  void sortPieChartMap(pieMap) {
+    // Map<String, int> map = {'one': 10, 'two': 5, 'three': 7, 'four': 0};
+    Map<String, double> map = pieMap;
+    var mapEntries = map.entries.toList()
+      ..sort((b, a) => a.value.compareTo(b.value));
+
+    map
+      ..clear()
+      ..addEntries(mapEntries);
+
+    var index = 0;
+    Map<String, double> topThree = {};
+    double others = 0;
+    map.forEach((key, value) {
+      if (index > 2) {
+        others += 1;
+      } else {
+        topThree[key] = value;
+      }
+      index += 1;
+    });
+    topThree['Others'] = others;
+    setState(() {
+      pieChartData = topThree;
+    });
+  }
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     loadTasks().then((value) {
       setState(() {
@@ -60,6 +89,7 @@ class _SummaryState extends State<Summary> {
         });
         //get no of tasks
       });
+      sortPieChartMap(pieChartData);
     });
   }
 
@@ -68,97 +98,112 @@ class _SummaryState extends State<Summary> {
     //taskCount and sessionCount
 
     if (database != null) {
-      return Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Card(
-                  elevation: 5,
-                  shadowColor: Colors.black,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  color: kCardColor,
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.4,
-                    height: 120,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Center(
-                            child: Text(
-                          '$taskCount',
-                          textScaleFactor: 2.5,
-                        )),
-                        const Text('Total Tasks'),
-                      ],
+      return SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 20, 0, 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Card(
+                    elevation: 5,
+                    shadowColor: Colors.black,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    color: kCardColor,
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.4,
+                      height: 120,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Center(
+                              child: Text(
+                            '$taskCount',
+                            textScaleFactor: 2.5,
+                          )),
+                          const Text('Total Tasks'),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                Card(
-                  elevation: 5,
-                  shadowColor: Colors.black,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  color: kCardColor,
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.4,
-                    height: 120,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Center(
-                            child: Text(
-                          '${sessionCount / 2}',
-                          textScaleFactor: 2.5,
-                        )),
-                        Text('Total Hours')
-                      ],
+                  Card(
+                    elevation: 5,
+                    shadowColor: Colors.black,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    color: kCardColor,
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.4,
+                      height: 120,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Center(
+                              child: Text(
+                            '${sessionCount / 2}',
+                            textScaleFactor: 2.5,
+                          )),
+                          Text('Total Hours')
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-            child: Card(
-              elevation: 5,
-              shadowColor: Colors.black,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              color: kCardColor,
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.9,
-                height: MediaQuery.of(context).size.height * 0.4,
-                child: PieChart(
-                  dataMap: pieChartData,
-                  colorList: pieColorList,
-                  chartRadius: MediaQuery.of(context).size.width / 2,
-                  chartValuesOptions: const ChartValuesOptions(
-                    showChartValueBackground: false,
-                    showChartValues: false,
-                    showChartValuesOutside: true,
-                  ),
-                  legendOptions: const LegendOptions(
-                    showLegends: true,
-                    legendShape: BoxShape.rectangle,
-                    legendTextStyle: TextStyle(
-                      fontSize: 18,
-                    ),
-                    legendPosition: LegendPosition.right,
-                    showLegendsInRow: false,
-                  ),
-                ),
+                ],
               ),
             ),
-          )
-        ],
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+              child: Card(
+                elevation: 5,
+                shadowColor: Colors.black,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                color: kCardColor,
+                child: Column(
+                  children: [
+                    Container(
+                      decoration: const BoxDecoration(
+                          border: Border(
+                        bottom: BorderSide(color: kTextColor),
+                      )),
+                      child: const SizedBox(
+                          height: 50,
+                          child: Center(child: Text('Top 3 Tasks'))),
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.85,
+                      height: MediaQuery.of(context).size.height * 0.45,
+                      child: PieChart(
+                        dataMap: pieChartData,
+                        colorList: pieColorList,
+                        chartRadius: MediaQuery.of(context).size.width * 0.7,
+                        chartValuesOptions: const ChartValuesOptions(
+                          showChartValueBackground: false,
+                          showChartValues: true,
+                          showChartValuesOutside: false,
+                        ),
+                        legendOptions: const LegendOptions(
+                          showLegends: true,
+                          legendShape: BoxShape.rectangle,
+                          legendTextStyle: TextStyle(
+                            fontSize: 18,
+                          ),
+                          legendPosition: LegendPosition.right,
+                          showLegendsInRow: false,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
       );
     } else {
       return Center(child: Text(page));
