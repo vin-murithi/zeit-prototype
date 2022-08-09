@@ -16,6 +16,7 @@ class _TasksState extends State<Tasks> {
   Map taskData = {};
   var taskHistoryList = [];
   List? database;
+
   //sort Map
   Map sortTaskMap(taskMap) {
     Map map = taskMap;
@@ -63,8 +64,8 @@ class _TasksState extends State<Tasks> {
                 (key, value) {
                   taskName = key;
                   taskSessions = value;
-                  sessionCount = taskSessions.length;
-                  taskData[taskName] = taskSessions;
+                  sessionCount = taskSessions.isEmpty?0:taskSessions.length;
+                  taskData[taskName] = taskSessions.isEmpty?{}:taskSessions;
                 },
               );
               return Padding(

@@ -40,24 +40,37 @@ class _HomeScreenState extends State<HomeScreen> {
     getTaskList();
   }
 
+  //sort Map
+  Map sortTaskMap(taskMap) {
+    Map map = taskMap;
+    var mapEntries = map.entries.toList()
+      ..sort((b, a) => a.value.compareTo(b.value));
+
+    map
+      ..clear()
+      ..addEntries(mapEntries);
+    return map;
+  }
+
   void saveTask(newTask) async {
-    Map newTaskMap = {'New Task': newTask.toString()};
-    await Database2().writeDatabase(newTaskMap).then((value) {
+    Map newTaskMap = {newTask.toString(): []};
+    await Database().writeDatabase(newTaskMap).then((value) {
       getTaskList();
     });
   }
 
   //Get Task List
   void getTaskList() async {
-    await Database2().readDatabase().then((value) {
-      Map taskListMap = value;
+    await Database().readDatabase().then((value) {
+      Map taskListMap = {};
+      value.forEach((key, value) {
+        taskListMap[key] = value.length;
+      });
+      taskListMap = sortTaskMap(taskListMap);
+      taskList = [];
       taskListMap.forEach((key, value) {
-        List taskListList = value;
-
         setState(() {
-          taskList = taskListList;
-          taskList.insert(0, 'Default');
-
+          taskList.add(key);
           selectedTask = 0;
         });
       });

@@ -49,7 +49,11 @@ class Database {
       database[taskName] = dbList;
       // print('database value for $taskName is ${database[taskName]}');
     } else {
-      database[taskName] = [taskInfo[0]];
+      if ((taskInfo.isEmpty)) {
+        database[taskName] = [];
+      } else {
+        database[taskName] = [taskInfo[0]];
+      }
       // print('database value for $taskName is ${database[taskName]}');
     }
     // String toDatabase = json.encode(database);

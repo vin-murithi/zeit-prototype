@@ -33,13 +33,20 @@ class _TaskHistoryState extends State<TaskHistory> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    List taskSessions = widget.taskData.values.toList().first;
+    List taskSessions;
+    widget.taskData.values.toList().isEmpty
+        ? taskSessions = []
+        : taskSessions = widget.taskData.values.toList().first;
 
     setState(() {
-      for (var i = 0; i < taskSessions.length; i++) {
-        datesList.add(DateTime.tryParse(taskSessions[i]['end'])!);
-        // print('datelist: $datesList');
-      }
+      if (taskSessions.isEmpty) {
+        datesList = [];
+      } else {
+
+        for (var i = 0; i < taskSessions.length; i++) {
+          datesList.add(DateTime.tryParse(taskSessions[i]['end'])!);
+          // print('datelist: $datesList');
+        }
       firstEntry = taskSessions[0];
       lastEntry = taskSessions[taskSessions.length - 1];
       firstEntryDate = DateTime.tryParse(firstEntry['end']);
@@ -50,8 +57,9 @@ class _TaskHistoryState extends State<TaskHistory> {
           .format(lastEntryDate!);
       entryCount = widget.taskData.values.toList().first.length;
       taskName = widget.taskData.keys.toList().first;
+      }
     });
-    // print('task sessions: $taskSessions');
+    print('task sessions: $taskSessions');
   }
 
   List returnDateList() {
