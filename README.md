@@ -25,6 +25,7 @@ Improve listItems: spacing, color, elevation [create a standard]
 Improve Buttons: Sizing, color, elevation [create a standard]
     -Primary acttion buttons
     -Primary feature buttons
+
 Featureset
 Calendar
     -Add past sessions to calendar:)
@@ -36,6 +37,13 @@ Delete a task
     -present confirmation dialog
     -show success status notification
     -refresh task List
+Settings page
+    Dark mode
+    Delete all your session data
+        -type something before deleting
+    Feedback
+        -Add ability to add anonymous feedback & Suggestions.
+
 
 ******************************************************************
 Documentation.

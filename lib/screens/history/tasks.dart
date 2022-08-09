@@ -70,7 +70,7 @@ class _TasksState extends State<Tasks> {
               return Padding(
                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                 child: Card(
-                  elevation: 2,
+                  elevation: 1,
                   shadowColor: Colors.black,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
@@ -78,7 +78,7 @@ class _TasksState extends State<Tasks> {
                   color: kCardColor,
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width * 0.8,
-                    height: 100,
+                    height: 80,
                     child: Center(
                       child: ListTile(
                         leading: const Icon(
@@ -109,7 +109,7 @@ class _TasksState extends State<Tasks> {
             }),
       );
     } else {
-      return Center(child: Text('data loading'));
+      return const Center(child: Text('data loading'));
     }
   }
 }

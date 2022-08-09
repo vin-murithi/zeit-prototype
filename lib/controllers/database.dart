@@ -47,10 +47,10 @@ class Database {
       dbList = database[taskName];
       dbList.add(taskInfo[0]);
       database[taskName] = dbList;
-      print('database value for $taskName is ${database[taskName]}');
+      // print('database value for $taskName is ${database[taskName]}');
     } else {
       database[taskName] = [taskInfo[0]];
-      print('database value for $taskName is ${database[taskName]}');
+      // print('database value for $taskName is ${database[taskName]}');
     }
     // String toDatabase = json.encode(database);
     String toJson() => json.encode(database);

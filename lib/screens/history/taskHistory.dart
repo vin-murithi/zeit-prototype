@@ -108,7 +108,7 @@ class _TaskHistoryState extends State<TaskHistory> {
         elevation: 5,
         //back btn
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(Icons.chevron_left),
           onPressed: () {
             Navigator.pop(context);
           },

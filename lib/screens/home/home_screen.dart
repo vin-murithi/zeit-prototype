@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:zeit/constants.dart';
 import 'package:zeit/controllers/database.dart';
 import 'package:zeit/screens/history/history.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -12,6 +13,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  String eventTone = 'sessionStart';
   int shortBreak = 1;
   int longbreak = 2;
   int session = 2;
@@ -71,6 +73,18 @@ class _HomeScreenState extends State<HomeScreen> {
     //Function for making minutes and seconds.
     final minutes = (time ~/ 60).toString().padLeft(2, '0');
     final seconds = time.remainder(60).toString().padLeft(2, '0');
+    //Play tone
+    void playTone() {
+      String soundAssetsPath = 'sounds/';
+      final player = AudioPlayer();
+      if (eventTone == 'sessionStart') {
+        String toneName = '$soundAssetsPath$eventTone.mp3';
+        player.play(AssetSource(toneName),
+            mode: PlayerMode.lowLatency, volume: 10);
+        print('play $toneName');
+      }
+    }
+
     //Log session
     void logSession() {
       //taskName
@@ -90,9 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ]
       };
       //Add Session to database
-      Database()
-          .writeDatabase(sessionData)
-          .then((value) => print(value.toString()));
+      Database().writeDatabase(sessionData).then((value) => print('success'));
     }
 
     //Manage pomodoro session
@@ -106,6 +118,10 @@ class _HomeScreenState extends State<HomeScreen> {
           });
         } else {
           timer.cancel();
+          setState(() {
+            eventTone == 'sessionEnd';
+          });
+          playTone();
           //start break if prev period was a session
           if (period == session) {
             setState(() {
@@ -152,7 +168,7 @@ class _HomeScreenState extends State<HomeScreen> {
     //Start pomodoro Session
     void startPomodoro() {
       if (currentSessionCount == 0) {
-        print('Started a new Sesstion');
+        print('Started a new Session');
         setState(() {
           pomodoroInSession = true;
         });
@@ -169,8 +185,10 @@ class _HomeScreenState extends State<HomeScreen> {
         isCancelled = false;
         isOnBreak = false;
         time = session;
+        eventTone = 'sessionStart';
       });
       managePomodoro();
+      playTone();
     }
 
     //startbreak
@@ -178,8 +196,10 @@ class _HomeScreenState extends State<HomeScreen> {
       time = shortBreak;
       setState(() {
         breakOngoing = true;
+        eventTone = 'sessionStart';
       });
       managePomodoro();
+      playTone();
     }
 
     //Pause Pomodoro
@@ -427,7 +447,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child: Text(
                                   '$minutes:$seconds',
                                   style: const TextStyle(
-                                    fontSize: 80.0,
+                                    fontSize: 90.0,
                                     color: kTextColor,
                                   ),
                                 ),
@@ -462,8 +482,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                         onTap: () {
                                           if (!taskListDisplayed) {
                                             saveTask(taskInputFieldValue);
-                                            // taskList.insert(0, taskInputFieldValue);
-                                            print('add $taskInputFieldValue');
                                           }
                                           setState(() {
                                             if (taskListDisplayed) {
