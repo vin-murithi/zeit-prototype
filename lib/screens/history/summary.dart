@@ -22,12 +22,10 @@ class _SummaryState extends State<Summary> {
   List<Color> pieColorList = [
     const Color(0xFF004C7B),
     const Color(0xFF0092FC),
-    const Color(0xFF777474),
     const Color(0xFFBBE7FF),
-    const Color.fromARGB(255, 32, 32, 32),
-    const Color.fromARGB(255, 152, 225, 243),
     const Color.fromARGB(255, 48, 71, 77),
     const Color.fromARGB(255, 19, 28, 31),
+    const Color.fromARGB(255, 32, 32, 32),
   ];
 
   //Method to get tasks

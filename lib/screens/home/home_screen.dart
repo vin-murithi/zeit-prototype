@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:zeit/constants.dart';
 import 'package:zeit/controllers/database.dart';
 import 'package:zeit/screens/history/history.dart';
-import 'package:zeit/screens/settings/settings.dart';
+// import 'package:zeit/screens/settings/settings.dart';
 import 'package:audioplayers/audioplayers.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -14,11 +14,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String eventTone = 'sessionStart';
-  int shortBreak = 1;
-  int longbreak = 2;
-  int session = 2;
-  int time = 2;
+  int shortBreak = kShortBreak;
+  int longbreak = kLongBreak;
+  int session = kPomodoroSession;
+  int time = kPomodoroSession;
   int currentSessionCount = 0;
   DateTime currentSessionStart = DateTime.now();
   bool pomodoroInSession = false;
@@ -96,15 +95,10 @@ class _HomeScreenState extends State<HomeScreen> {
     final minutes = (time ~/ 60).toString().padLeft(2, '0');
     final seconds = time.remainder(60).toString().padLeft(2, '0');
     //Play tone
-    void playTone() {
-      String soundAssetsPath = 'sounds/';
+    void playTone(tone) async {
+      // String soundAssetsPath = 'sounds/';
       final player = AudioPlayer();
-      if (eventTone == 'sessionStart') {
-        String toneName = '$soundAssetsPath$eventTone.mp3';
-        player.play(AssetSource(toneName),
-            mode: PlayerMode.lowLatency, volume: 10);
-        print('play $toneName');
-      }
+      await player.play(AssetSource('sounds/$tone.mp3'));
     }
 
     //Log session
@@ -140,10 +134,7 @@ class _HomeScreenState extends State<HomeScreen> {
           });
         } else {
           timer.cancel();
-          setState(() {
-            eventTone == 'sessionEnd';
-          });
-          playTone();
+          playTone('sessionEnd');
           //start break if prev period was a session
           if (period == session) {
             setState(() {
@@ -152,15 +143,16 @@ class _HomeScreenState extends State<HomeScreen> {
               sessionOngoing = false;
               isOnBreak = true;
             });
-            if (currentSessionCount > 4) {
+            logSession();
+          } else if (period == shortBreak) {
+            if (currentSessionCount == 4) {
               print('pomodoro complete');
               setState(() {
+                time = longbreak;
                 currentSessionCount = 0;
                 pomodoroInSession = false;
               });
             }
-            logSession();
-          } else if (period == shortBreak) {
             print('break');
             setState(() {
               time = session;
@@ -206,10 +198,9 @@ class _HomeScreenState extends State<HomeScreen> {
         isCancelled = false;
         isOnBreak = false;
         time = session;
-        eventTone = 'sessionStart';
       });
       managePomodoro();
-      playTone();
+      playTone('sessionStart');
     }
 
     //startbreak
@@ -217,10 +208,9 @@ class _HomeScreenState extends State<HomeScreen> {
       time = shortBreak;
       setState(() {
         breakOngoing = true;
-        eventTone = 'sessionStart';
       });
       managePomodoro();
-      playTone();
+      playTone('sessionStart');
     }
 
     //Pause Pomodoro
@@ -505,7 +495,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                     child: GestureDetector(
                                         onTap: () {
                                           if (!taskListDisplayed) {
-                                            saveTask(taskInputFieldValue);
+                                            saveTask(taskInputFieldValue
+                                                .replaceFirst(
+                                                    taskInputFieldValue[0],
+                                                    taskInputFieldValue[0]
+                                                        .toUpperCase()));
                                           }
                                           setState(() {
                                             if (taskListDisplayed) {
@@ -566,10 +560,11 @@ class _HomeScreenState extends State<HomeScreen> {
       actions: [
         IconButton(
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const Settings()),
-            );
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(builder: (context) => const Settings()),
+            // );
+            print('feature not yet implemented');
           },
           icon: const CircleAvatar(
               backgroundColor: kTertiaryColor,
