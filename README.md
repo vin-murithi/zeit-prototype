@@ -44,6 +44,10 @@ Settings page
     Feedback
         -Add ability to add anonymous feedback & Suggestions.
 
+Bugs
+    -Delete and update between taskList and task map :)
+    -After cancelling break, Once you start pomodoro it doesnt go to break:)
+      
 
 ******************************************************************
 Documentation.

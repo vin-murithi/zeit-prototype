@@ -42,21 +42,21 @@ class _TaskHistoryState extends State<TaskHistory> {
       if (taskSessions.isEmpty) {
         datesList = [];
       } else {
-
         for (var i = 0; i < taskSessions.length; i++) {
           datesList.add(DateTime.tryParse(taskSessions[i]['end'])!);
           // print('datelist: $datesList');
         }
-      firstEntry = taskSessions[0];
-      lastEntry = taskSessions[taskSessions.length - 1];
-      firstEntryDate = DateTime.tryParse(firstEntry['end']);
-      lastEntryDate = DateTime.tryParse(lastEntry['end']);
-      firstEntryDateString = DateFormat(DateFormat.YEAR_ABBR_MONTH_WEEKDAY_DAY)
-          .format(firstEntryDate!);
-      lastEntryDateString = DateFormat(DateFormat.YEAR_ABBR_MONTH_WEEKDAY_DAY)
-          .format(lastEntryDate!);
-      entryCount = widget.taskData.values.toList().first.length;
-      taskName = widget.taskData.keys.toList().first;
+        firstEntry = taskSessions[0];
+        lastEntry = taskSessions[taskSessions.length - 1];
+        firstEntryDate = DateTime.tryParse(firstEntry['end']);
+        lastEntryDate = DateTime.tryParse(lastEntry['end']);
+        firstEntryDateString =
+            DateFormat(DateFormat.YEAR_ABBR_MONTH_WEEKDAY_DAY)
+                .format(firstEntryDate!);
+        lastEntryDateString = DateFormat(DateFormat.YEAR_ABBR_MONTH_WEEKDAY_DAY)
+            .format(lastEntryDate!);
+        entryCount = widget.taskData.values.toList().first.length;
+        taskName = widget.taskData.keys.toList().first;
       }
     });
     print('task sessions: $taskSessions');
@@ -99,14 +99,53 @@ class _TaskHistoryState extends State<TaskHistory> {
   }
 
   //Delete Task
-  void deleteTask() async {
+  void showDeleteDialog() async {
     print('delete $taskName');
+
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            scrollable: true,
+            title: Center(
+              child: Text('Confirm delete'),
+            ),
+            backgroundColor: kCardColor,
+            content: Center(
+              child: Text('Do you want to delete $taskName task?'),
+            ),
+            actions: [
+              MaterialButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Cancel'),
+              ),
+              MaterialButton(
+                color: kDanger,
+                onPressed: () {
+                  deleteTask();
+                  Navigator.pop(context);
+                },
+                child: const Text(
+                  'Delete',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ],
+          );
+        });
+  }
+
+  void deleteTask() async {
     int returnStatus = await Database().deleteTask(taskName);
     if (returnStatus == 1) {
       print('$taskName deleted successfully');
       Navigator.pop(context);
+      
+    } else {
+      print('Error occured while deleting task');
     }
-    print('Error occured while deleting task');
   }
 
   @override
@@ -246,7 +285,7 @@ class _TaskHistoryState extends State<TaskHistory> {
                               onPrimary: Colors.white,
                             ),
                             onPressed: () {
-                              deleteTask();
+                              showDeleteDialog();
                             },
                             child: const Text(
                               'Delete',

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:zeit/constants.dart';
 import 'package:zeit/controllers/database.dart';
 import 'package:zeit/screens/history/history.dart';
+import 'package:zeit/screens/settings/settings.dart';
 import 'package:audioplayers/audioplayers.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -53,10 +54,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void saveTask(newTask) async {
-    Map newTaskMap = {newTask.toString(): []};
-    await Database().writeDatabase(newTaskMap).then((value) {
-      getTaskList();
+    setState(() {
+      taskList.insert(0, newTask);
     });
+    // Map newTaskMap = {newTask.toString(): []};
+    // await Database().writeDatabase(newTaskMap).then((value) {
+    //   getTaskList();
+    // });
   }
 
   //Get Task List
@@ -69,10 +73,15 @@ class _HomeScreenState extends State<HomeScreen> {
       taskListMap = sortTaskMap(taskListMap);
       taskList = [];
       taskListMap.forEach((key, value) {
-        setState(() {
-          taskList.add(key);
-          selectedTask = 0;
-        });
+        if (key != 'Default') {
+          setState(() {
+            taskList.add(key);
+            selectedTask = 0;
+          });
+        }
+      });
+      setState(() {
+        taskList.insert(0, 'Default');
       });
     });
   }
@@ -165,7 +174,6 @@ class _HomeScreenState extends State<HomeScreen> {
         if (isCancelled) {
           timer.cancel();
           setState(() {
-            sessionOngoing = false;
             time = session;
           });
         }
@@ -242,6 +250,7 @@ class _HomeScreenState extends State<HomeScreen> {
         pomodoroInSession = false;
         sessionOngoing = false;
         isOnBreak = false;
+        breakOngoing = false;
       });
       managePomodoro();
     }
@@ -262,7 +271,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 width: deviceWidth * 0.6,
                 child: ElevatedButton(
                   onPressed: () => {startPomodoro()},
-                  child: Text('Start Pomodoro'),
+                  child: Text(!pomodoroInSession
+                      ? 'Start Session'
+                      : 'Continue Session'),
                   style: ElevatedButton.styleFrom(
                     primary: kTertiaryColor,
                   ),
@@ -271,7 +282,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         );
-      } else if (sessionOngoing && !isOnBreak) {
+      } else if (sessionOngoing) {
         buttons = Container(
           height: deviceHeight * 0.28,
           width: deviceWidth,
@@ -552,15 +563,20 @@ class _HomeScreenState extends State<HomeScreen> {
           fontSize: 30,
         ),
       ),
-      actions: const [
+      actions: [
         IconButton(
-          icon: CircleAvatar(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const Settings()),
+            );
+          },
+          icon: const CircleAvatar(
               backgroundColor: kTertiaryColor,
               child: Icon(
                 Icons.settings,
                 color: Colors.white,
               )),
-          onPressed: null,
           color: kTertiaryColor,
           iconSize: 40,
         ),

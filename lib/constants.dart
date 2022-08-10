@@ -10,6 +10,7 @@ const kDefaultPadding = 20.0;
 const kCardColor = Color(0xffFFFFFF);
 const kSuccess = Color(0xff5cb85c);
 const kDanger = Color(0xffC10000);
+const kLightText = Color(0xffF2F2F2);
 //Home Page
 const kCountDownDial = Color.fromARGB(255, 250, 250, 250);
 

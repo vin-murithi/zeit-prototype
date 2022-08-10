@@ -18,7 +18,6 @@ class _HistoryHomeState extends State<HistoryHome> {
   late Map historyData;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Database().readDatabase().then((value) => {historyData = value});
   }
@@ -29,6 +28,7 @@ class _HistoryHomeState extends State<HistoryHome> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
+          elevation: 2,
           leading: IconButton(
             icon: const Icon(Icons.chevron_left),
             onPressed: () {
