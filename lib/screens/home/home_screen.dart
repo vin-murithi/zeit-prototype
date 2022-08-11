@@ -286,21 +286,27 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    ElevatedButton(
-                      onPressed: () =>
-                          {isPaused ? resumePomodoro() : pausePomodoro()},
-                      child: Text(isPaused ? 'Resume' : 'Pause'),
-                      style: ElevatedButton.styleFrom(
-                        primary: kTertiaryColor,
-                        minimumSize: Size(150, 48),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
+                      child: ElevatedButton(
+                        onPressed: () =>
+                            {isPaused ? resumePomodoro() : pausePomodoro()},
+                        child: Text(isPaused ? 'Resume' : 'Pause'),
+                        style: ElevatedButton.styleFrom(
+                          primary: kTertiaryColor,
+                          minimumSize: Size(150, 48),
+                        ),
                       ),
                     ),
-                    ElevatedButton(
-                      onPressed: () => {cancelPomodoro()},
-                      child: Text('Cancel'),
-                      style: ElevatedButton.styleFrom(
-                        primary: kTertiaryColor,
-                        minimumSize: Size(150, 48),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+                      child: ElevatedButton(
+                        onPressed: () => {cancelPomodoro()},
+                        child: Text('Cancel'),
+                        style: ElevatedButton.styleFrom(
+                          primary: kTertiaryColor,
+                          minimumSize: Size(150, 48),
+                        ),
                       ),
                     ),
                   ],
@@ -323,21 +329,27 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    ElevatedButton(
-                      onPressed: () =>
-                          {isPaused ? resumePomodoro() : pausePomodoro()},
-                      child: Text(isPaused ? 'Resume' : 'Pause'),
-                      style: ElevatedButton.styleFrom(
-                        primary: kTertiaryColor,
-                        minimumSize: Size(150, 48),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
+                      child: ElevatedButton(
+                        onPressed: () =>
+                            {isPaused ? resumePomodoro() : pausePomodoro()},
+                        child: Text(isPaused ? 'Resume' : 'Pause'),
+                        style: ElevatedButton.styleFrom(
+                          primary: kTertiaryColor,
+                          minimumSize: Size(150, 48),
+                        ),
                       ),
                     ),
-                    ElevatedButton(
-                      onPressed: () => {cancelPomodoro()},
-                      child: Text('Cancel'),
-                      style: ElevatedButton.styleFrom(
-                        primary: kTertiaryColor,
-                        minimumSize: Size(150, 48),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+                      child: ElevatedButton(
+                        onPressed: () => {cancelPomodoro()},
+                        child: Text('Cancel'),
+                        style: ElevatedButton.styleFrom(
+                          primary: kTertiaryColor,
+                          minimumSize: Size(150, 48),
+                        ),
                       ),
                     ),
                   ],
@@ -514,14 +526,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 ? kTertiaryColor
                                                 : kSuccess,
                                             foregroundColor: Colors.white,
-                                            child: Icon(Icons.add)))),
+                                            child: const Icon(Icons.add)))),
                               )
                             ],
                           ),
                         ),
                       ]),
                   //Conditional Buttons
-                  getButtons(),
+                  Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
+                      child: getButtons()),
                 ],
               ),
             )),
