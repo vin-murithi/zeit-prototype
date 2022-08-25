@@ -142,7 +142,6 @@ class _TaskHistoryState extends State<TaskHistory> {
     if (returnStatus == 1) {
       print('$taskName deleted successfully');
       Navigator.pop(context);
-      
     } else {
       print('Error occured while deleting task');
     }
@@ -203,13 +202,16 @@ class _TaskHistoryState extends State<TaskHistory> {
                             if (day.day == d.day &&
                                 day.month == d.month &&
                                 day.year == d.year) {
-                              return CircleAvatar(
-                                backgroundColor: kSuccess,
-                                maxRadius: 20,
-                                child: Center(
-                                  child: Text(
-                                    '${day.day}',
-                                    style: const TextStyle(color: Colors.white),
+                              return Center(
+                                child: CircleAvatar(
+                                  backgroundColor: kSuccess,
+                                  maxRadius: 19,
+                                  child: Center(
+                                    child: Text(
+                                      '${day.day}',
+                                      style:
+                                          const TextStyle(color: Colors.white),
+                                    ),
                                   ),
                                 ),
                               );

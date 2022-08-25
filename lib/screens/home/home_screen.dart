@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:zeit/constants.dart';
 import 'package:zeit/controllers/database.dart';
 import 'package:zeit/screens/history/history.dart';
-// import 'package:zeit/screens/settings/settings.dart';
+import 'package:zeit/screens/settings/settings.dart';
 import 'package:audioplayers/audioplayers.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -282,20 +282,17 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               Container(
                 height: 50,
-                width: deviceWidth * 0.8,
+                width: deviceWidth * 1,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
-                      child: ElevatedButton(
-                        onPressed: () =>
-                            {isPaused ? resumePomodoro() : pausePomodoro()},
-                        child: Text(isPaused ? 'Resume' : 'Pause'),
-                        style: ElevatedButton.styleFrom(
-                          primary: kTertiaryColor,
-                          minimumSize: Size(150, 48),
-                        ),
+                    ElevatedButton(
+                      onPressed: () =>
+                          {isPaused ? resumePomodoro() : pausePomodoro()},
+                      child: Text(isPaused ? 'Resume' : 'Pause'),
+                      style: ElevatedButton.styleFrom(
+                        primary: kTertiaryColor,
+                        minimumSize: Size(150, 48),
                       ),
                     ),
                     Padding(
@@ -316,22 +313,21 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         );
       } else if (breakOngoing) {
-        buttons = Container(
-          height: deviceHeight * 0.28,
-          width: deviceWidth,
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Container(
-                height: 50,
-                width: deviceWidth * 0.8,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
-                      child: ElevatedButton(
+        buttons = Center(
+          child: Container(
+            height: deviceHeight * 0.28,
+            width: deviceWidth,
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Container(
+                  height: 50,
+                  width: deviceWidth * 1,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton(
                         onPressed: () =>
                             {isPaused ? resumePomodoro() : pausePomodoro()},
                         child: Text(isPaused ? 'Resume' : 'Pause'),
@@ -340,22 +336,22 @@ class _HomeScreenState extends State<HomeScreen> {
                           minimumSize: Size(150, 48),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-                      child: ElevatedButton(
-                        onPressed: () => {cancelPomodoro()},
-                        child: Text('Cancel'),
-                        style: ElevatedButton.styleFrom(
-                          primary: kTertiaryColor,
-                          minimumSize: Size(150, 48),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+                        child: ElevatedButton(
+                          onPressed: () => {cancelPomodoro()},
+                          child: Text('Cancel'),
+                          style: ElevatedButton.styleFrom(
+                            primary: kTertiaryColor,
+                            minimumSize: Size(150, 48),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              )
-            ],
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         );
       } else if (isOnBreak && !sessionOngoing) {
@@ -574,10 +570,10 @@ class _HomeScreenState extends State<HomeScreen> {
       actions: [
         IconButton(
           onPressed: () {
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(builder: (context) => const Settings()),
-            // );
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const Settings()),
+            );
             print('feature not yet implemented');
           },
           icon: const CircleAvatar(
