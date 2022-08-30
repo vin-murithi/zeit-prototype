@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:zeit/constants.dart';
+import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 
-class Settings extends StatefulWidget {
-  const Settings({Key? key}) : super(key: key);
+class SettingsPage extends StatefulWidget {
+  static const keyDarkMode = "key-dark-mode";
+  const SettingsPage({Key? key}) : super(key: key);
 
   @override
-  State<Settings> createState() => _SettingsState();
+  State<SettingsPage> createState() => _SettingsPageState();
 }
 
-class _SettingsState extends State<Settings> {
+class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 2,
+        elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.chevron_left),
           onPressed: () {
@@ -30,210 +31,113 @@ class _SettingsState extends State<Settings> {
           style: TextStyle(color: kTextColor),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(5, 10, 5, 0),
-            child: Column(
-              children: [
-                Card(
-                  elevation: 2,
-                  shadowColor: Colors.black,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  color: kCardColor,
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.99,
-                    height: 80,
-                    child: Center(
-                      child: ListTile(
-                        leading: CircleAvatar(
-                          radius: 30,
-                          backgroundColor: kTextColor,
-                          child: const Icon(
-                            Icons.contrast,
-                            size: 40,
-                            color: kLightText,
-                          ),
-                        ),
-                        title: Text(
-                          'Dark Mode',
-                          textScaleFactor: 1.5,
-                        ),
-                        trailing: const Icon(
-                          Icons.toggle_on,
-                          size: 50,
-                          color: Colors.black,
-                        ),
-                        onTap: () {
-                          print('toggle dark mode');
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-                Card(
-                  elevation: 2,
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.97,
-                    height: 200,
-                    child: Column(
-                      children: [
-                        Card(
-                          elevation: 0,
-                          shadowColor: Colors.black,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          color: kCardColor,
-                          child: const SizedBox(
-                            height: 70,
-                            child: Center(
-                              child: ListTile(
-                                leading: CircleAvatar(
-                                  radius: 30,
-                                  backgroundColor: kTextColor,
-                                  child: Icon(
-                                    Icons.delete,
-                                    size: 40,
-                                    color: kLightText,
-                                  ),
-                                ),
-                                title: Text(
-                                  'Delete all Data',
-                                  textScaleFactor: 1.5,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(60, 0, 0, 0),
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                width: 260,
-                                height: 50,
-                                child: const TextField(
-                                  obscureText: true,
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    labelText:
-                                        "Type the word 'delete' and press OK ",
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: SizedBox(
-                                  width: 100,
-                                  height: 40,
-                                  child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        primary: kDanger,
-                                        onPrimary: Colors.white,
-                                      ),
-                                      onPressed: () {
-                                        print('delete');
-                                      },
-                                      child: const Text(
-                                        'Delete',
-                                        textScaleFactor: 1.2,
-                                      )),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Card(
-                  elevation: 2,
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.97,
-                    height: 250,
-                    child: Column(
-                      children: [
-                        Card(
-                          elevation: 0,
-                          shadowColor: Colors.black,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          color: kCardColor,
-                          child: const SizedBox(
-                            height: 70,
-                            child: Center(
-                              child: ListTile(
-                                leading: CircleAvatar(
-                                  radius: 30,
-                                  backgroundColor: kTextColor,
-                                  child: Icon(
-                                    Icons.feedback,
-                                    size: 40,
-                                    color: kLightText,
-                                  ),
-                                ),
-                                title: Text(
-                                  'Feedback',
-                                  textScaleFactor: 1.5,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(60, 0, 0, 0),
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                width: 260,
-                                height: 110,
-                                child: TextField(
-                                  keyboardType: TextInputType.multiline,
-                                  maxLines: 10,
-                                  minLines: 4,
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    labelText:
-                                        'Write your anonymous feedback here..',
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: SizedBox(
-                                  width: 100,
-                                  height: 40,
-                                  child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        primary: kTertiaryColor,
-                                        onPrimary: Colors.white,
-                                      ),
-                                      onPressed: () {
-                                        print('send feedback');
-                                      },
-                                      child: const Text(
-                                        'Send',
-                                        textScaleFactor: 1.2,
-                                      )),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
+      body: ListView(
+        padding: const EdgeInsets.all(24),
+        //List with all settings tile
+        children: [
+          //User profile card
+          buildUserProfileCard(),
+          //General Settings tiles
+          SettingsGroup(
+            title: 'General Settings',
+            children: <Widget>[
+              buildDarkModeTile(context),
+              buildSessionTimeTile()
+            ],
           ),
-        ),
+          //Account Settings tiles
+          SettingsGroup(
+            title: 'Account Settings',
+            children: <Widget>[buildLogoutTile(), buildDeleteAccountTile()],
+          ),
+          //Feedback  tiles
+          SettingsGroup(
+            title: 'Feedback',
+            children: <Widget>[buildReportBugTile(), buildGiveFeedbackTile()],
+          ),
+        ],
       ),
     );
   }
+
+//User Profile Card
+  Widget buildUserProfileCard() => Container(
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const CircleAvatar(
+                  radius: 50.0,
+                  backgroundImage: AssetImage('assets/images/penguin.jpg'),
+                  backgroundColor: Colors.transparent,
+                ),
+                Container(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(5, 0, 0, 5),
+                          child: Text(
+                            'Vin Murithi',
+                            textScaleFactor: 1.5,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(5, 0, 0, 5),
+                          child: Text('vin-murithi-zeit'),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+            Divider(),
+          ],
+        ),
+      );
+//General Settings tiles
+  Widget buildDarkModeTile(BuildContext context) => SwitchSettingsTile(
+      settingKey: 'key-dark-mode',
+      title: 'Dark Mode',
+      subtitle: '',
+      leading: const Icon(Icons.contrast),
+      onChange: (_) {});
+  //ToDo: use DropDown Tile
+  Widget buildSessionTimeTile() => SimpleSettingsTile(
+      title: 'Change Session Durations',
+      subtitle: 'Delete your account and all data',
+      leading: const Icon(Icons.timer),
+      onTap: () => ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Change Session Durations Clicked'))));
+//Account Settings tiles
+  Widget buildLogoutTile() => SimpleSettingsTile(
+      title: 'Logout',
+      subtitle: 'Log out from this device',
+      leading: const Icon(Icons.logout),
+      onTap: () => ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Log Out Clicked'))));
+  Widget buildDeleteAccountTile() => SimpleSettingsTile(
+      title: 'Delete account',
+      subtitle: 'Delete your account and all data',
+      leading: const Icon(Icons.delete),
+      onTap: () => ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Log Out Clicked'))));
+//Feedback Tiles
+  Widget buildReportBugTile() => SimpleSettingsTile(
+      title: 'Report a bug',
+      subtitle: '',
+      leading: const Icon(Icons.bug_report),
+      onTap: () => ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Report a bug Clicked'))));
+  Widget buildGiveFeedbackTile() => SimpleSettingsTile(
+      title: 'Send Feedback',
+      subtitle: '',
+      leading: const Icon(Icons.thumb_up),
+      onTap: () => ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Send Feedback Clicked'))));
 }

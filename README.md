@@ -93,11 +93,21 @@ Bugs
 25-07-2022
 Settings
 	-dark theme
-
+    
 Settings page
  -Profile (Avatar and Name)
+
+  General
  -Light and dark mode
- -Delete all data
+ -Time: dropdown
+
+  Account
+ -Delete account and all data: text input
+ -Logout
+
+  Feedback
+ -Report bug
+ -Give Feedback
 
 ---
 
