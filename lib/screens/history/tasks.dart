@@ -64,46 +64,40 @@ class _TasksState extends State<Tasks> {
                 (key, value) {
                   taskName = key;
                   taskSessions = value;
-                  sessionCount = taskSessions.isEmpty?0:taskSessions.length;
-                  taskData[taskName] = taskSessions.isEmpty?{}:taskSessions;
+                  sessionCount = taskSessions.isEmpty ? 0 : taskSessions.length;
+                  taskData[taskName] = taskSessions.isEmpty ? {} : taskSessions;
                 },
               );
               return Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                child: Card(
-                  elevation: 1,
-                  shadowColor: Colors.black,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  color: kCardColor,
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    height: 80,
-                    child: Center(
-                      child: ListTile(
-                        leading: const Icon(
-                          Icons.circle,
-                          size: 40,
-                          color: Color(0xFFFFFFFF),
-                        ),
-                        title: Text(
-                          taskName,
-                          textScaleFactor: 1.5,
-                        ),
-                        trailing: Text(
-                          '| ${sessionCount / 2} hours',
-                          textScaleFactor: 1.2,
-                        ),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => TaskHistory(taskMap)),
-                          );
-                        },
-                      ),
+                padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                child: Container(
+                  padding: EdgeInsets.all(8.0),
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  decoration: BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(
+                              width: 1.5, color: Colors.grey.shade400))),
+                  child: ListTile(
+                    leading: const Icon(
+                      Icons.circle,
+                      size: 40,
+                      color: Color(0xFFFFFFFF),
                     ),
+                    title: Text(
+                      taskName,
+                      textScaleFactor: 1.5,
+                    ),
+                    trailing: Text(
+                      '| ${sessionCount / 2} hours',
+                      textScaleFactor: 1.2,
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => TaskHistory(taskMap)),
+                      );
+                    },
                   ),
                 ),
               );

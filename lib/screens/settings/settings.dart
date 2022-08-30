@@ -37,12 +37,12 @@ class _SettingsPageState extends State<SettingsPage> {
         children: [
           //User profile card
           buildUserProfileCard(),
+          buildDarkModeTile(context),
           //General Settings tiles
           SettingsGroup(
             title: 'General Settings',
             children: <Widget>[
-              buildDarkModeTile(context),
-              buildSessionTimeTile()
+              buildSessionTimeTile(),
             ],
           ),
           //Account Settings tiles
@@ -61,44 +61,39 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
 //User Profile Card
-  Widget buildUserProfileCard() => Container(
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const CircleAvatar(
-                  radius: 50.0,
-                  backgroundImage: AssetImage('assets/images/penguin.jpg'),
-                  backgroundColor: Colors.transparent,
-                ),
-                Container(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(5, 0, 0, 5),
-                          child: Text(
-                            'Vin Murithi',
-                            textScaleFactor: 1.5,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(5, 0, 0, 5),
-                          child: Text('vin-murithi-zeit'),
-                        ),
-                      ],
+  Widget buildUserProfileCard() => Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const CircleAvatar(
+                radius: 50.0,
+                backgroundImage: AssetImage('assets/images/penguin.jpg'),
+                backgroundColor: Colors.transparent,
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(5, 0, 0, 5),
+                      child: Text(
+                        'Vin Murithi',
+                        textScaleFactor: 1.5,
+                      ),
                     ),
-                  ),
-                )
-              ],
-            ),
-            Divider(),
-          ],
-        ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(5, 0, 0, 5),
+                      child: Text('vin-murithi-zeit'),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ],
       );
 //General Settings tiles
   Widget buildDarkModeTile(BuildContext context) => SwitchSettingsTile(
@@ -108,12 +103,19 @@ class _SettingsPageState extends State<SettingsPage> {
       leading: const Icon(Icons.contrast),
       onChange: (_) {});
   //ToDo: use DropDown Tile
-  Widget buildSessionTimeTile() => SimpleSettingsTile(
-      title: 'Change Session Durations',
-      subtitle: 'Delete your account and all data',
-      leading: const Icon(Icons.timer),
-      onTap: () => ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Change Session Durations Clicked'))));
+  Widget buildSessionTimeTile() => DropDownSettingsTile<int>(
+        title: 'Session Duration',
+        settingKey: 'key-session-duration',
+        values: <int, String>{
+          2: '25/5 Session/Break',
+          3: '50/5 Session/Break',
+          4: '100/10 Session/Break',
+        },
+        selected: 2,
+        onChange: (value) {
+          debugPrint('key-dropdown-email-view: $value');
+        },
+      );
 //Account Settings tiles
   Widget buildLogoutTile() => SimpleSettingsTile(
       title: 'Logout',

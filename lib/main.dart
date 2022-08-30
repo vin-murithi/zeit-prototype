@@ -3,17 +3,19 @@ import 'screens/settings/settings.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:zeit/screens/home/home_screen.dart';
 
+//Main method: entry, to initilize settings and run app
 Future<void> main() async{
   await initSettings();
   runApp(const MyApp());
 }
 
+//Creates SharePreferenceCach object, initializes it and initializes the Settings widget.
 Future<void> initSettings() async {
       SharePreferenceCache spCache = SharePreferenceCache();
       await spCache.init();
       await Settings.init(cacheProvider: spCache);
     }
-
+//My main App Class
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   @override

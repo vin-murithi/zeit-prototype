@@ -52,9 +52,20 @@ Improve Buttons: Sizing, color, elevation [create a standard]
 Improve TabBar
     -Source: https://stackoverflow.com/questions/63314082/flutter-how-to-make-a-custom-tabbar
 
-Neumorphic buttons.
+Neumorphic buttons. x
+
+Colors:
     -white color (255,53,53,53)
     -black color (255,237,237,237)
+
+List Items:
+    -not cards
+    -Thin bottom border
+Tab Switcher:
+    -rounded
+    -90% of screen
+
+
 
 Featureset
 Calendar
@@ -80,6 +91,7 @@ Theatrics
 Timing
 -Allow for other Session Break configurations
     -make them contants 25/5,  50/10, 100/20
+Add Cancel button when adding tasks.
 
 Bugs
 -Delete and update between taskList and task map :)
