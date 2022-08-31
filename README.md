@@ -97,9 +97,9 @@ Bugs
 -Delete and update between taskList and task map :)
 -After cancelling break, Once you start pomodoro it doesnt go to break:)
 -Button container missbehaving.:)
--Make the dial radius depend on device width
--Make keyboard dismissible on clicking anywhere else on screen. and the task input field as well.
--Marked dates UI misbehaving
+-Make the dial radius depend on device width:)
+-Make keyboard dismissible on clicking anywhere else on screen. and the task input field as well.:)
+-Marked dates UI misbehaving:)
 
 **************Task Logs******************************
 25-07-2022
@@ -110,7 +110,7 @@ Settings page
  -Profile (Avatar and Name)
 
   General
- -Light and dark mode
+ -Light and dark mode:)
  -Time: dropdown
 
   Account

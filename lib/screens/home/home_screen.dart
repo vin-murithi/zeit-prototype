@@ -388,26 +388,30 @@ class _HomeScreenState extends State<HomeScreen> {
     Widget getDropDown(taskList) {
       //taskList
       return Container(
-        width: deviceWidth * 0.6,
+        width: deviceWidth * 0.7,
         decoration: BoxDecoration(
-          border: Border(
-              bottom:
-                  BorderSide(color: Theme.of(context).primaryColor, width: 3)),
-          // border: Border.all(color: Theme.of(context).primaryColor, width: 1),
-          // borderRadius: BorderRadius.circular(5),
+          // border: Border(
+          //     bottom:
+          //         BorderSide(color: Theme.of(context).primaryColor, width: 3)),
+          border: Border.all(color: Theme.of(context).primaryColor, width: 2),
+          borderRadius: BorderRadius.circular(10),
         ),
         child: DropdownButtonHideUnderline(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(10, 0, 5, 0),
+            padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
             child: DropdownButton<String>(
                 isExpanded: true,
-                iconSize: 40,
+                iconSize: 30,
                 value: selectedTaskName,
                 items: taskList
                     .map<DropdownMenuItem<String>>(
                         (value) => DropdownMenuItem<String>(
                               value: value,
-                              child: Text(value),
+                              child: Center(
+                                  child: Text(
+                                value,
+                                textAlign: TextAlign.center,
+                              )),
                             ))
                     .toList(),
                 onChanged: (value) {
@@ -461,7 +465,7 @@ class _HomeScreenState extends State<HomeScreen> {
       } else {
         return Container(
             height: deviceHeight * 0.07,
-            width: deviceWidth * 0.6,
+            width: deviceWidth * 0.7,
             child: TextField(
               onChanged: (text) {
                 setState(() {
@@ -498,112 +502,122 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: buildAppBar(context),
+      resizeToAvoidBottomInset: true,
       body: SafeArea(
-        child: Column(
-          children: <Widget>[
-            //Rest of the UI
-            Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              //Timer CountDown
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                child: Container(
-                  alignment: Alignment.center,
-                  height: deviceHeight * 0.45,
-                  width: deviceWidth,
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              //Rest of the UI
+              Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                //Timer CountDown
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                   child: Container(
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).scaffoldBackgroundColor,
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                            blurRadius: 7,
-                            color: Theme.of(context).shadowColor,
-                            spreadRadius: 1)
-                      ],
-                    ),
-                    child: CircleAvatar(
-                      backgroundColor:
-                          Theme.of(context).scaffoldBackgroundColor,
-                      radius: deviceHeight * 0.5,
-                      child: Text(
-                        '$minutes:$seconds',
-                        style: TextStyle(
-                          fontSize: 90.0,
-                          fontFamily: 'Orbitron',
-                          color: Theme.of(context).textTheme.bodyText2!.color,
+                    alignment: Alignment.center,
+                    height: deviceHeight * 0.45,
+                    width: deviceWidth,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).scaffoldBackgroundColor,
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                              blurRadius: 7,
+                              color: Theme.of(context).shadowColor,
+                              spreadRadius: 1)
+                        ],
+                      ),
+                      child: CircleAvatar(
+                        backgroundColor:
+                            Theme.of(context).scaffoldBackgroundColor,
+                        radius: deviceHeight * 0.5,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              '$minutes:$seconds',
+                              style: TextStyle(
+                                fontSize: 90.0,
+                                fontFamily: 'Orbitron',
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2!
+                                    .color,
+                              ),
+                            ),
+                            Text(
+                              '$currentSessionCount of 4',
+                              style: const TextStyle(
+                                fontSize: 17.0,
+                                fontWeight: FontWeight.w800,
+                                // color: kTextColor,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              //Session progress
-              Container(
-                alignment: Alignment.center,
-                height: deviceHeight * 0.05,
-                width: deviceWidth,
-                child: Text(
-                  '$currentSessionCount of 4',
-                  style: const TextStyle(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.w900,
-                    // color: kTextColor,
-                  ),
-                ),
-              ),
-              //TaskList
-              Container(
-                height: deviceHeight * 0.1,
-                child: AnimatedOpacity(
-                  duration: const Duration(milliseconds: 500),
-                  opacity: pomodoroInSession ? 0 : 1,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Container(
-                        width: deviceWidth * 0.2,
-                        child: !taskListDisplayed ? getCancelButton() : null,
-                      ),
-                      getTaskListWidget(),
-                      Container(
-                        width: deviceWidth * 0.2,
-                        child: Center(
-                            child: GestureDetector(
-                                onTap: () {
-                                  if (!taskListDisplayed) {
-                                    saveTask(taskInputFieldValue.replaceFirst(
-                                        taskInputFieldValue[0],
-                                        taskInputFieldValue[0].toUpperCase()));
-                                  }
-                                  setState(() {
-                                    if (taskListDisplayed) {
-                                      taskListDisplayed = false;
-                                    } else {
-                                      taskListDisplayed = true;
+                //TaskList
+                Container(
+                  height: deviceHeight * 0.1,
+                  child: AnimatedOpacity(
+                    duration: const Duration(milliseconds: 500),
+                    opacity: pomodoroInSession ? 0 : 1,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Container(
+                          width: deviceWidth * 0.15,
+                          child: !taskListDisplayed ? getCancelButton() : null,
+                        ),
+                        Center(
+                          child: getTaskListWidget(),
+                        ),
+                        Container(
+                          width: deviceWidth * 0.15,
+                          child: Center(
+                              child: GestureDetector(
+                                  onTap: () {
+                                    if (!taskListDisplayed) {
+                                      saveTask(taskInputFieldValue.replaceFirst(
+                                          taskInputFieldValue[0],
+                                          taskInputFieldValue[0]
+                                              .toUpperCase()));
                                     }
-                                  });
-                                },
-                                child: CircleAvatar(
-                                    backgroundColor: taskListDisplayed
-                                        ? kTertiaryColor
-                                        : kSuccess,
-                                    foregroundColor: Colors.white,
-                                    child: Icon(taskListDisplayed
-                                        ? Icons.add
-                                        : Icons.done)))),
-                      )
-                    ],
+                                    setState(() {
+                                      if (taskListDisplayed) {
+                                        taskListDisplayed = false;
+                                      } else {
+                                        taskListDisplayed = true;
+                                      }
+                                    });
+                                  },
+                                  child: CircleAvatar(
+                                      backgroundColor: taskListDisplayed
+                                          ? kTertiaryColor
+                                          : kSuccess,
+                                      foregroundColor: Colors.white,
+                                      child: Icon(taskListDisplayed
+                                          ? Icons.add
+                                          : Icons.done)))),
+                        )
+                      ],
+                    ),
                   ),
                 ),
+              ]),
+              //Conditional Buttons
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  height: deviceHeight * 0.25,
+                  child: getButtons(),
+                ),
               ),
-            ]),
-            //Conditional Buttons
-            Expanded(
-                child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: getButtons(),
-            )),
-          ],
+            ],
+          ),
         ),
       ),
     );
