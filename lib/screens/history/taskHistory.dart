@@ -194,7 +194,7 @@ class _TaskHistoryState extends State<TaskHistory> {
                               day.year == d.year) {
                             return Center(
                               child: CircleAvatar(
-                                backgroundColor: kSuccess,
+                                backgroundColor: Colors.black,
                                 maxRadius: 19,
                                 child: Center(
                                   child: Text(

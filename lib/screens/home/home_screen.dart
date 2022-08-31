@@ -33,12 +33,14 @@ class _HomeScreenState extends State<HomeScreen> {
   List taskList = [
     'Default',
   ];
+  String? selectedTaskName;
 
   //Save new added task
   @override
   void initState() {
     super.initState();
     getTaskList();
+    selectedTaskName = taskList[0];
   }
 
   //sort Map
@@ -105,7 +107,8 @@ class _HomeScreenState extends State<HomeScreen> {
     //Log session
     void logSession() {
       //taskName
-      String taskName = taskList[selectedTask];
+      // String taskName = taskList[selectedTask];
+      String taskName = selectedTaskName!;
       //sessionStart
       DateTime taskSessionStart = currentSessionStart;
       //sessionEnd
@@ -251,7 +254,7 @@ class _HomeScreenState extends State<HomeScreen> {
       Widget buttons = const Text('Seems to Be an Error');
       if (!sessionOngoing && !isOnBreak) {
         buttons = Container(
-          height: deviceHeight * 0.28,
+          // height: deviceHeight * 0.28,
           width: deviceWidth,
           child: Column(
             mainAxisSize: MainAxisSize.max,
@@ -381,44 +384,84 @@ class _HomeScreenState extends State<HomeScreen> {
       return buttons;
     }
 
+    //get dropdown menu with task list
+    Widget getDropDown(taskList) {
+      //taskList
+      return Container(
+        width: deviceWidth * 0.6,
+        decoration: BoxDecoration(
+          border: Border(
+              bottom:
+                  BorderSide(color: Theme.of(context).primaryColor, width: 3)),
+          // border: Border.all(color: Theme.of(context).primaryColor, width: 1),
+          // borderRadius: BorderRadius.circular(5),
+        ),
+        child: DropdownButtonHideUnderline(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(10, 0, 5, 0),
+            child: DropdownButton<String>(
+                isExpanded: true,
+                iconSize: 40,
+                value: selectedTaskName,
+                items: taskList
+                    .map<DropdownMenuItem<String>>(
+                        (value) => DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            ))
+                    .toList(),
+                onChanged: (value) {
+                  setState(() {
+                    selectedTaskName = value;
+                  });
+                  print(value);
+                }),
+          ),
+        ),
+      );
+    }
+
+    //Get dropdown or tasklistwidget
     Widget getTaskListWidget() {
-      if (taskListDisplayed) {
-        return Container(
-          height: deviceHeight * 0.07,
-          width: deviceWidth * 0.8,
-          child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: taskList.length,
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        selectedTask = index;
-                      });
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Center(
-                        child: Text(
-                          taskList[index],
-                          style: TextStyle(
-                            fontSize: selectedTask == index ? 25.0 : 23.0,
-                            fontWeight: selectedTask == index
-                                ? FontWeight.w500
-                                : FontWeight.w400,
-                            // color: index == selectedTask
-                            //     ? Colors.black
-                            //     : kTextColor,
-                          ),
+      Widget scrollList = Container(
+        height: deviceHeight * 0.07,
+        width: deviceWidth * 0.7,
+        child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: taskList.length,
+            itemBuilder: (context, index) {
+              return GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      selectedTask = index;
+                    });
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Center(
+                      child: Text(
+                        taskList[index],
+                        style: TextStyle(
+                          fontSize: selectedTask == index ? 25.0 : 23.0,
+                          fontWeight: selectedTask == index
+                              ? FontWeight.w500
+                              : FontWeight.w400,
+                          // color: index == selectedTask
+                          //     ? Colors.black
+                          //     : kTextColor,
                         ),
                       ),
-                    ));
-              }),
-        );
+                    ),
+                  ));
+            }),
+      );
+      Widget dropDown = getDropDown(taskList);
+      if (taskListDisplayed) {
+        return dropDown;
       } else {
         return Container(
             height: deviceHeight * 0.07,
-            width: deviceWidth * 0.8,
+            width: deviceWidth * 0.6,
             child: TextField(
               onChanged: (text) {
                 setState(() {
@@ -432,6 +475,25 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ));
       }
+    }
+
+    Widget getCancelButton() {
+      return Container(
+        // color: Colors.red,
+        width: deviceWidth * 0.1,
+        child: Center(
+            child: GestureDetector(
+                onTap: () {
+                  //close field and dismiss keyboard
+                  setState(() {
+                    taskListDisplayed = true;
+                  });
+                },
+                child: const CircleAvatar(
+                    backgroundColor: kDanger,
+                    foregroundColor: Colors.white,
+                    child: Icon(Icons.cancel)))),
+      );
     }
 
     return Scaffold(
@@ -449,20 +511,20 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: deviceHeight * 0.45,
                   width: deviceWidth,
                   child: Container(
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).scaffoldBackgroundColor,
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                            blurRadius: 2,
-                            color: Color.fromARGB(255, 75, 75, 75),
+                            blurRadius: 7,
+                            color: Theme.of(context).shadowColor,
                             spreadRadius: 1)
                       ],
                     ),
                     child: CircleAvatar(
                       backgroundColor:
                           Theme.of(context).scaffoldBackgroundColor,
-                      radius: 250,
+                      radius: deviceHeight * 0.5,
                       child: Text(
                         '$minutes:$seconds',
                         style: TextStyle(
@@ -490,45 +552,57 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               //TaskList
-              AnimatedOpacity(
-                duration: const Duration(milliseconds: 500),
-                opacity: pomodoroInSession ? 0 : 1,
-                child: Row(
-                  children: [
-                    getTaskListWidget(),
-                    Container(
-                      width: deviceWidth * 0.2,
-                      child: Center(
-                          child: GestureDetector(
-                              onTap: () {
-                                if (!taskListDisplayed) {
-                                  saveTask(taskInputFieldValue.replaceFirst(
-                                      taskInputFieldValue[0],
-                                      taskInputFieldValue[0].toUpperCase()));
-                                }
-                                setState(() {
-                                  if (taskListDisplayed) {
-                                    taskListDisplayed = false;
-                                  } else {
-                                    taskListDisplayed = true;
+              Container(
+                height: deviceHeight * 0.1,
+                child: AnimatedOpacity(
+                  duration: const Duration(milliseconds: 500),
+                  opacity: pomodoroInSession ? 0 : 1,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Container(
+                        width: deviceWidth * 0.2,
+                        child: !taskListDisplayed ? getCancelButton() : null,
+                      ),
+                      getTaskListWidget(),
+                      Container(
+                        width: deviceWidth * 0.2,
+                        child: Center(
+                            child: GestureDetector(
+                                onTap: () {
+                                  if (!taskListDisplayed) {
+                                    saveTask(taskInputFieldValue.replaceFirst(
+                                        taskInputFieldValue[0],
+                                        taskInputFieldValue[0].toUpperCase()));
                                   }
-                                });
-                              },
-                              child: CircleAvatar(
-                                  backgroundColor: taskListDisplayed
-                                      ? kTertiaryColor
-                                      : kSuccess,
-                                  foregroundColor: Colors.white,
-                                  child: const Icon(Icons.add)))),
-                    )
-                  ],
+                                  setState(() {
+                                    if (taskListDisplayed) {
+                                      taskListDisplayed = false;
+                                    } else {
+                                      taskListDisplayed = true;
+                                    }
+                                  });
+                                },
+                                child: CircleAvatar(
+                                    backgroundColor: taskListDisplayed
+                                        ? kTertiaryColor
+                                        : kSuccess,
+                                    foregroundColor: Colors.white,
+                                    child: Icon(taskListDisplayed
+                                        ? Icons.add
+                                        : Icons.done)))),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ]),
             //Conditional Buttons
-            Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
-                child: getButtons()),
+            Expanded(
+                child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: getButtons(),
+            )),
           ],
         ),
       ),
@@ -557,7 +631,8 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       centerTitle: true,
       title: Text(
-        taskList[selectedTask],
+        // taskList[selectedTask],
+        selectedTaskName!,
         style: const TextStyle(
           // color: kTextColor,
           fontSize: 25,

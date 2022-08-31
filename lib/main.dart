@@ -38,17 +38,20 @@ class MyApp extends StatelessWidget {
     ThemeData theme;
     if (isDarkMOde) {
       theme = ThemeData.dark().copyWith(
-          scaffoldBackgroundColor: Color.fromARGB(255, 36, 36, 36),
-          textTheme: TextTheme(
-            bodyText2: TextStyle(color: Colors.white),
-          ));
+        scaffoldBackgroundColor: const Color.fromARGB(255, 36, 36, 36),
+        textTheme: const TextTheme(
+          bodyText2: TextStyle(color: Colors.white),
+        ),
+        shadowColor: Color.fromARGB(255, 49, 49, 49),
+      );
     } else {
       theme = ThemeData.light().copyWith(
-        scaffoldBackgroundColor: Color.fromARGB(255, 240, 240, 240),
-        appBarTheme: AppBarTheme(
-          // backgroundColor: Colors.blue,
+        scaffoldBackgroundColor: const Color.fromARGB(255, 240, 240, 240),
+        primaryColor: const Color.fromARGB(255, 226, 226, 226),
+        appBarTheme: const AppBarTheme(
           foregroundColor: Colors.black87,
         ),
+        shadowColor: Colors.white,
       );
     }
 

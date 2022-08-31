@@ -58,8 +58,8 @@ class _HistoryHomeState extends State<HistoryHome>
               height: 40,
               decoration: BoxDecoration(
                   border: Border.all(
-                    color: Color.fromARGB(255, 59, 59, 59),
-                    width: 1,
+                    color: Theme.of(context).primaryColor,
+                    width: 2,
                   ),
                   borderRadius: const BorderRadius.all(Radius.circular(5))),
               child: TabBar(

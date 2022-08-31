@@ -49,7 +49,7 @@ Improve listItems: spacing, color, elevation [create a standard]
 Improve Buttons: Sizing, color, elevation [create a standard]
 -Primary acttion buttons
 -Primary feature buttons
-Improve TabBar
+Improve TabBar:)
     -Source: https://stackoverflow.com/questions/63314082/flutter-how-to-make-a-custom-tabbar
 
 Neumorphic buttons. x
@@ -59,11 +59,11 @@ Colors:
     -black color (255,237,237,237)
 
 List Items:
-    -not cards
-    -Thin bottom border
+    -not cards:)
+    -Thin bottom border:)
 Tab Switcher:
-    -rounded
-    -90% of screen
+    -rounded:)
+    -90% of screen:)
 
 
 
@@ -78,8 +78,8 @@ Delete a task
 -present confirmation dialog:)
 -show success status notification
 -refresh task List
-Settings page
-Dark mode
+Settings page:)
+Dark mode:)
 Delete all your session data
 -type something before deleting
 Feedback
