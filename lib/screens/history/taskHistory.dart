@@ -176,8 +176,11 @@ class _TaskHistoryState extends State<TaskHistory> {
               padding: const EdgeInsets.all(3.0),
               child: SizedBox(
                 height: MediaQuery.of(context).size.height * 0.5,
+                width: MediaQuery.of(context).size.width * 0.98,
                 child: Card(
-                  elevation: 2,
+                  elevation: 5,
+                  shadowColor: Color.fromARGB(255, 29, 29, 29),
+                  color: Theme.of(context).scaffoldBackgroundColor,
                   child: TableCalendar(
                     calendarBuilders: CalendarBuilders(
                       defaultBuilder: (

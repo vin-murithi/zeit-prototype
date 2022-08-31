@@ -465,10 +465,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       radius: 250,
                       child: Text(
                         '$minutes:$seconds',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 90.0,
                           fontFamily: 'Orbitron',
-                          // color: kTextColor,
+                          color: Theme.of(context).textTheme.bodyText2!.color,
                         ),
                       ),
                     ),

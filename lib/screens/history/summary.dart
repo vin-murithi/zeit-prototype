@@ -110,7 +110,7 @@ class _SummaryState extends State<Summary> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    // color: kCardColor,
+                    color: Theme.of(context).scaffoldBackgroundColor,
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width * 0.4,
                       height: 120,
@@ -133,7 +133,7 @@ class _SummaryState extends State<Summary> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    // color: kCardColor,
+                    color: Theme.of(context).scaffoldBackgroundColor,
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width * 0.4,
                       height: 120,
@@ -161,7 +161,7 @@ class _SummaryState extends State<Summary> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                // color: kCardColor,
+                color: Theme.of(context).scaffoldBackgroundColor,
                 child: Column(
                   children: [
                     Container(

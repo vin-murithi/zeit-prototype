@@ -69,23 +69,31 @@ class _TasksState extends State<Tasks> {
                 },
               );
               return Padding(
-                padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                padding: const EdgeInsets.fromLTRB(15, 0, 10, 0),
                 child: Container(
                   padding: EdgeInsets.all(8.0),
                   width: MediaQuery.of(context).size.width * 0.9,
+                  height: MediaQuery.of(context).size.height * 0.1,
                   decoration: BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(
-                              width: 1, color: Colors.grey.shade300))),
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                    border: Border(
+                      bottom: BorderSide(
+                          width: 0.5,
+                          color: Theme.of(context).textTheme.bodyText2!.color!),
+                      // top: BorderSide(
+                      //     width: 0.5,
+                      //     color: Theme.of(context).textTheme.bodyText2!.color!),
+                    ),
+                    // borderRadius: BorderRadius.all(Radius.circular(5)),
+                  ),
                   child: ListTile(
                     leading: const Icon(
-                      Icons.circle,
-                      size: 40,
-                      color: Color(0xFFFFFFFF),
+                      Icons.task,
+                      size: 30,
                     ),
                     title: Text(
                       taskName,
-                      textScaleFactor: 1.5,
+                      textScaleFactor: 1.3,
                     ),
                     trailing: Text(
                       '| ${sessionCount / 2} hours',

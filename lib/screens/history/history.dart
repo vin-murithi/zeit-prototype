@@ -63,7 +63,8 @@ class _HistoryHomeState extends State<HistoryHome>
                   ),
                   borderRadius: const BorderRadius.all(Radius.circular(5))),
               child: TabBar(
-                // unselectedLabelColor: kTextColor,
+                unselectedLabelColor:
+                    Theme.of(context).textTheme.bodyText2!.color,
                 indicatorSize: TabBarIndicatorSize.tab,
                 indicator: const BoxDecoration(
                   color: kTertiaryColor,
