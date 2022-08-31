@@ -151,155 +151,139 @@ class _TaskHistoryState extends State<TaskHistory> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 5,
-        //back btn
+        elevation: 0,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         leading: IconButton(
           icon: const Icon(Icons.chevron_left),
           onPressed: () {
             Navigator.pop(context);
           },
-          color: kSecondaryColor,
+          // color: kSecondaryColor,
           iconSize: 40,
         ),
         //title
         centerTitle: true,
-        backgroundColor: kPrimaryColor,
         title: Text(
           taskName,
-          style: const TextStyle(color: kTextColor),
         ),
         //Bottom Section
       ),
       body: SafeArea(
-          child: Container(
-        decoration: const BoxDecoration(
-            gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            kPrimaryColor,
-            Color.fromARGB(255, 255, 255, 255),
-          ],
-        )),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(3.0),
-                child: SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.5,
-                  child: Card(
-                    elevation: 2,
-                    color: kCardColor,
-                    child: TableCalendar(
-                      calendarBuilders: CalendarBuilders(
-                        defaultBuilder: (
-                          context,
-                          day,
-                          focusedDay,
-                        ) {
-                          for (DateTime d in returnDateList()) {
-                            if (day.day == d.day &&
-                                day.month == d.month &&
-                                day.year == d.year) {
-                              return Center(
-                                child: CircleAvatar(
-                                  backgroundColor: kSuccess,
-                                  maxRadius: 19,
-                                  child: Center(
-                                    child: Text(
-                                      '${day.day}',
-                                      style:
-                                          const TextStyle(color: Colors.white),
-                                    ),
+          child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(3.0),
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height * 0.5,
+                child: Card(
+                  elevation: 2,
+                  child: TableCalendar(
+                    calendarBuilders: CalendarBuilders(
+                      defaultBuilder: (
+                        context,
+                        day,
+                        focusedDay,
+                      ) {
+                        for (DateTime d in returnDateList()) {
+                          if (day.day == d.day &&
+                              day.month == d.month &&
+                              day.year == d.year) {
+                            return Center(
+                              child: CircleAvatar(
+                                backgroundColor: kSuccess,
+                                maxRadius: 19,
+                                child: Center(
+                                  child: Text(
+                                    '${day.day}',
+                                    style: const TextStyle(color: Colors.white),
                                   ),
                                 ),
-                              );
-                            }
+                              ),
+                            );
                           }
-                          return null;
-                        },
-                      ),
-                      shouldFillViewport: true,
-                      focusedDay: DateTime.now(),
-                      firstDay: DateTime.now()
-                          .subtract(const Duration(days: (365 * 10))),
-                      lastDay:
-                          DateTime.now().add(const Duration(days: (365 * 10))),
-                      onDaySelected: (selectedDay, focusedDay) {
-                        getDaySessionActivity(selectedDay);
+                        }
+                        return null;
                       },
-                      headerStyle: const HeaderStyle(
-                        formatButtonVisible: false,
-                        titleCentered: true,
-                      ),
+                    ),
+                    shouldFillViewport: true,
+                    focusedDay: DateTime.now(),
+                    firstDay: DateTime.now()
+                        .subtract(const Duration(days: (365 * 10))),
+                    lastDay:
+                        DateTime.now().add(const Duration(days: (365 * 10))),
+                    onDaySelected: (selectedDay, focusedDay) {
+                      getDaySessionActivity(selectedDay);
+                    },
+                    headerStyle: const HeaderStyle(
+                      formatButtonVisible: false,
+                      titleCentered: true,
                     ),
                   ),
                 ),
               ),
-              Container(
-                height: MediaQuery.of(context).size.height * 0.4,
-                width: MediaQuery.of(context).size.width,
-                child: Column(children: [
-                  SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.28,
-                      width: MediaQuery.of(context).size.width,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                                'First Worked On | $firstEntryDateString',
-                                textScaleFactor: 1.1),
+            ),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.4,
+              width: MediaQuery.of(context).size.width,
+              child: Column(children: [
+                SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.28,
+                    width: MediaQuery.of(context).size.width,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text('First Worked On | $firstEntryDateString',
+                              textScaleFactor: 1.1),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text('Last Worked On | $lastEntryDateString',
+                              textScaleFactor: 1.1),
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          height: 100,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Center(
+                                  child: Text(
+                                '${entryCount / 2}',
+                                textScaleFactor: 2,
+                              )),
+                              const Text('Total Hours Invested'),
+                              getClickedDateString(),
+                            ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text('Last Worked On | $lastEntryDateString',
-                                textScaleFactor: 1.1),
+                        ),
+                      ],
+                    )),
+                Center(
+                  child: SizedBox(
+                    height: 50,
+                    width: 170,
+                    child: ButtonTheme(
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: kDanger,
+                            onPrimary: Colors.white,
                           ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.4,
-                            height: 100,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Center(
-                                    child: Text(
-                                  '${entryCount / 2}',
-                                  textScaleFactor: 2,
-                                )),
-                                const Text('Total Hours Invested'),
-                                getClickedDateString(),
-                              ],
-                            ),
-                          ),
-                        ],
-                      )),
-                  Center(
-                    child: SizedBox(
-                      height: 50,
-                      width: 170,
-                      child: ButtonTheme(
-                        child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              primary: kDanger,
-                              onPrimary: Colors.white,
-                            ),
-                            onPressed: () {
-                              showDeleteDialog();
-                            },
-                            child: const Text(
-                              'Delete',
-                              textScaleFactor: 1.2,
-                            )),
-                      ),
+                          onPressed: () {
+                            showDeleteDialog();
+                          },
+                          child: const Text(
+                            'Delete',
+                            textScaleFactor: 1.2,
+                          )),
                     ),
-                  )
-                ]),
-              )
-            ],
-          ),
+                  ),
+                )
+              ]),
+            )
+          ],
         ),
       )),
     );

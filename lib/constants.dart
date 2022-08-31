@@ -16,6 +16,9 @@ const kLightText = Color(0xffF2F2F2);
 const kCountDownDial = Color.fromARGB(255, 250, 250, 250);
 
 //Time
-const kPomodoroSession = 60 * 25;
-const kShortBreak = 60 * 5;
-const kLongBreak = 60 * 25;
+const kPomodoroSession = 2;
+const kShortBreak = 1;
+const kLongBreak = 2;
+// const kPomodoroSession = 60 * 25;
+// const kShortBreak = 60 * 5;
+// const kLongBreak = 60 * 25;

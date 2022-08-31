@@ -76,7 +76,7 @@ class _TasksState extends State<Tasks> {
                   decoration: BoxDecoration(
                       border: Border(
                           bottom: BorderSide(
-                              width: 1.5, color: Colors.grey.shade400))),
+                              width: 1, color: Colors.grey.shade300))),
                   child: ListTile(
                     leading: const Icon(
                       Icons.circle,

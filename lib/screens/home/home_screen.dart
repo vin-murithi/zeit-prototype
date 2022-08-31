@@ -406,9 +406,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             fontWeight: selectedTask == index
                                 ? FontWeight.w500
                                 : FontWeight.w400,
-                            color: index == selectedTask
-                                ? Colors.black
-                                : kTextColor,
+                            // color: index == selectedTask
+                            //     ? Colors.black
+                            //     : kTextColor,
                           ),
                         ),
                       ),
@@ -437,113 +437,108 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: buildAppBar(context),
       body: SafeArea(
-        child: Container(
-            color: kPrimaryColor,
-            child: SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  //Rest of the UI
-                  Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        //Timer CountDown
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                          child: Container(
-                            alignment: Alignment.center,
-                            height: deviceHeight * 0.45,
-                            width: deviceWidth,
-                            child: Container(
-                              decoration: const BoxDecoration(
-                                color: Colors.white,
-                                shape: BoxShape.circle,
-                                boxShadow: [
-                                  BoxShadow(
-                                      blurRadius: 10,
-                                      color: Color.fromARGB(255, 218, 218, 218),
-                                      spreadRadius: 3)
-                                ],
-                              ),
-                              child: CircleAvatar(
-                                backgroundColor: kCountDownDial,
-                                radius: 250,
-                                child: Text(
-                                  '$minutes:$seconds',
-                                  style: const TextStyle(
-                                    fontSize: 90.0,
-                                    color: kTextColor,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
+        child: Column(
+          children: <Widget>[
+            //Rest of the UI
+            Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              //Timer CountDown
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                child: Container(
+                  alignment: Alignment.center,
+                  height: deviceHeight * 0.45,
+                  width: deviceWidth,
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                            blurRadius: 2,
+                            color: Color.fromARGB(255, 75, 75, 75),
+                            spreadRadius: 1)
+                      ],
+                    ),
+                    child: CircleAvatar(
+                      backgroundColor:
+                          Theme.of(context).scaffoldBackgroundColor,
+                      radius: 250,
+                      child: Text(
+                        '$minutes:$seconds',
+                        style: const TextStyle(
+                          fontSize: 90.0,
+                          fontFamily: 'Orbitron',
+                          // color: kTextColor,
                         ),
-                        //Session progress
-                        Container(
-                          alignment: Alignment.center,
-                          height: deviceHeight * 0.05,
-                          width: deviceWidth,
-                          child: Text(
-                            '$currentSessionCount of 4',
-                            style: const TextStyle(
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.w900,
-                                color: kTextColor),
-                          ),
-                        ),
-                        //TaskList
-                        AnimatedOpacity(
-                          duration: const Duration(milliseconds: 500),
-                          opacity: pomodoroInSession ? 0 : 1,
-                          child: Row(
-                            children: [
-                              getTaskListWidget(),
-                              Container(
-                                width: deviceWidth * 0.2,
-                                child: Center(
-                                    child: GestureDetector(
-                                        onTap: () {
-                                          if (!taskListDisplayed) {
-                                            saveTask(taskInputFieldValue
-                                                .replaceFirst(
-                                                    taskInputFieldValue[0],
-                                                    taskInputFieldValue[0]
-                                                        .toUpperCase()));
-                                          }
-                                          setState(() {
-                                            if (taskListDisplayed) {
-                                              taskListDisplayed = false;
-                                            } else {
-                                              taskListDisplayed = true;
-                                            }
-                                          });
-                                        },
-                                        child: CircleAvatar(
-                                            backgroundColor: taskListDisplayed
-                                                ? kTertiaryColor
-                                                : kSuccess,
-                                            foregroundColor: Colors.white,
-                                            child: const Icon(Icons.add)))),
-                              )
-                            ],
-                          ),
-                        ),
-                      ]),
-                  //Conditional Buttons
-                  Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
-                      child: getButtons()),
-                ],
+                      ),
+                    ),
+                  ),
+                ),
               ),
-            )),
+              //Session progress
+              Container(
+                alignment: Alignment.center,
+                height: deviceHeight * 0.05,
+                width: deviceWidth,
+                child: Text(
+                  '$currentSessionCount of 4',
+                  style: const TextStyle(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.w900,
+                    // color: kTextColor,
+                  ),
+                ),
+              ),
+              //TaskList
+              AnimatedOpacity(
+                duration: const Duration(milliseconds: 500),
+                opacity: pomodoroInSession ? 0 : 1,
+                child: Row(
+                  children: [
+                    getTaskListWidget(),
+                    Container(
+                      width: deviceWidth * 0.2,
+                      child: Center(
+                          child: GestureDetector(
+                              onTap: () {
+                                if (!taskListDisplayed) {
+                                  saveTask(taskInputFieldValue.replaceFirst(
+                                      taskInputFieldValue[0],
+                                      taskInputFieldValue[0].toUpperCase()));
+                                }
+                                setState(() {
+                                  if (taskListDisplayed) {
+                                    taskListDisplayed = false;
+                                  } else {
+                                    taskListDisplayed = true;
+                                  }
+                                });
+                              },
+                              child: CircleAvatar(
+                                  backgroundColor: taskListDisplayed
+                                      ? kTertiaryColor
+                                      : kSuccess,
+                                  foregroundColor: Colors.white,
+                                  child: const Icon(Icons.add)))),
+                    )
+                  ],
+                ),
+              ),
+            ]),
+            //Conditional Buttons
+            Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
+                child: getButtons()),
+          ],
+        ),
       ),
     );
   }
 
   AppBar buildAppBar(BuildContext context) {
     return AppBar(
-      backgroundColor: kPrimaryColor,
       elevation: 0,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       leading: IconButton(
         icon: const CircleAvatar(
             backgroundColor: kTertiaryColor,
@@ -564,8 +559,8 @@ class _HomeScreenState extends State<HomeScreen> {
       title: Text(
         taskList[selectedTask],
         style: const TextStyle(
-          color: kTextColor,
-          fontSize: 30,
+          // color: kTextColor,
+          fontSize: 25,
         ),
       ),
       actions: [

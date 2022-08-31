@@ -36,44 +36,38 @@ class _HistoryHomeState extends State<HistoryHome>
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         leading: IconButton(
           icon: const Icon(Icons.chevron_left),
           onPressed: () {
             Navigator.pop(context);
           },
-          color: kSecondaryColor,
           iconSize: 40,
         ),
         centerTitle: true,
-        backgroundColor: kPrimaryColor,
         title: const Text(
           'History',
-          style: TextStyle(color: kTextColor),
         ),
       ),
-      body: Container(
-        decoration: const BoxDecoration(
-            gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            kPrimaryColor,
-            Color.fromARGB(255, 255, 255, 255),
-          ],
-        )),
-        child: Column(
-          children: [
-            Container(
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+            child: Container(
               width: MediaQuery.of(context).size.width * 0.85,
               height: 40,
               decoration: BoxDecoration(
-                  border: Border.all(),
+                  border: Border.all(
+                    color: Color.fromARGB(255, 59, 59, 59),
+                    width: 1,
+                  ),
                   borderRadius: const BorderRadius.all(Radius.circular(5))),
               child: TabBar(
-                unselectedLabelColor: kTextColor,
+                // unselectedLabelColor: kTextColor,
                 indicatorSize: TabBarIndicatorSize.tab,
                 indicator: const BoxDecoration(
                   color: kTertiaryColor,
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
                 ),
                 tabs: const [
                   Tab(
@@ -86,17 +80,17 @@ class _HistoryHomeState extends State<HistoryHome>
                 controller: tabController,
               ),
             ),
-            Expanded(
-              child: TabBarView(
-                children: const [
-                  Summary(),
-                  Tasks(),
-                ],
-                controller: tabController,
-              ),
+          ),
+          Expanded(
+            child: TabBarView(
+              children: const [
+                Summary(),
+                Tasks(),
+              ],
+              controller: tabController,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

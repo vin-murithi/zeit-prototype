@@ -16,19 +16,19 @@ class _SettingsPageState extends State<SettingsPage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         leading: IconButton(
           icon: const Icon(Icons.chevron_left),
           onPressed: () {
             Navigator.pop(context);
           },
-          color: kSecondaryColor,
+          // color: kTertiaryColor,
           iconSize: 40,
         ),
         centerTitle: true,
-        backgroundColor: kPrimaryColor,
+        // backgroundColor: kPrimaryColor,
         title: const Text(
           'Settings',
-          style: TextStyle(color: kTextColor),
         ),
       ),
       body: ListView(

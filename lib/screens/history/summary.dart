@@ -110,7 +110,7 @@ class _SummaryState extends State<Summary> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    color: kCardColor,
+                    // color: kCardColor,
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width * 0.4,
                       height: 120,
@@ -133,7 +133,7 @@ class _SummaryState extends State<Summary> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    color: kCardColor,
+                    // color: kCardColor,
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width * 0.4,
                       height: 120,
@@ -161,18 +161,25 @@ class _SummaryState extends State<Summary> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                color: kCardColor,
+                // color: kCardColor,
                 child: Column(
                   children: [
                     Container(
                       width: MediaQuery.of(context).size.width * 0.9,
                       decoration: const BoxDecoration(
                           border: Border(
-                        bottom: BorderSide(color: kTextColor),
+                        bottom: BorderSide(
+                          color: Color.fromARGB(255, 83, 83, 83),
+                          width: 2,
+                        ),
                       )),
                       child: const SizedBox(
-                          height: 50,
-                          child: Center(child: Text('Top 3 Tasks'))),
+                          height: 60,
+                          child: Center(
+                              child: Text(
+                            'Top 3 Tasks',
+                            textScaleFactor: 1.1,
+                          ))),
                     ),
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.85,
