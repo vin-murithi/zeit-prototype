@@ -64,6 +64,9 @@ List Items:
 Tab Switcher:
     -rounded:)
     -90% of screen:)
+History Summary
+ - Make total tasks and hour cards larger
+ -Make pie chart shorter
 
 
 
@@ -92,6 +95,9 @@ Timing
 -Allow for other Session Break configurations
     -make them contants 25/5,  50/10, 100/20
 Add Cancel button when adding tasks.
+Notification
+    -Notify once breaks and sessions end
+
 
 Bugs
 -Delete and update between taskList and task map :)
@@ -100,6 +106,8 @@ Bugs
 -Make the dial radius depend on device width:)
 -Make keyboard dismissible on clicking anywhere else on screen. and the task input field as well.:)
 -Marked dates UI misbehaving:)
+-Increase the button container size
+-Apply Dark theme to delete alert dialogue in TaskHistory
 
 **************Task Logs******************************
 25-07-2022

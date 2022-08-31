@@ -110,7 +110,7 @@ class _TaskHistoryState extends State<TaskHistory> {
             title: Center(
               child: Text('Confirm delete'),
             ),
-            backgroundColor: kCardColor,
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             content: Center(
               child: Text('Do you want to delete $taskName task?'),
             ),

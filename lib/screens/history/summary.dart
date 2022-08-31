@@ -100,7 +100,7 @@ class _SummaryState extends State<Summary> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(0, 20, 0, 10),
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 5),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -112,7 +112,7 @@ class _SummaryState extends State<Summary> {
                     ),
                     color: Theme.of(context).scaffoldBackgroundColor,
                     child: SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.4,
+                      width: MediaQuery.of(context).size.width * 0.42,
                       height: 120,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -135,7 +135,7 @@ class _SummaryState extends State<Summary> {
                     ),
                     color: Theme.of(context).scaffoldBackgroundColor,
                     child: SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.4,
+                      width: MediaQuery.of(context).size.width * 0.42,
                       height: 120,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -169,8 +169,8 @@ class _SummaryState extends State<Summary> {
                       decoration: const BoxDecoration(
                           border: Border(
                         bottom: BorderSide(
-                          color: Color.fromARGB(255, 83, 83, 83),
-                          width: 2,
+                          color: Color.fromARGB(255, 71, 71, 71),
+                          width: 1,
                         ),
                       )),
                       child: const SizedBox(
@@ -183,7 +183,7 @@ class _SummaryState extends State<Summary> {
                     ),
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.85,
-                      height: MediaQuery.of(context).size.height * 0.45,
+                      height: MediaQuery.of(context).size.height * 0.4,
                       child: PieChart(
                         dataMap: pieChartData,
                         colorList: pieColorList,

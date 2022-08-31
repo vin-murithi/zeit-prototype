@@ -612,7 +612,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
-                  height: deviceHeight * 0.25,
+                  height: deviceHeight * 0.3,
                   child: getButtons(),
                 ),
               ),
