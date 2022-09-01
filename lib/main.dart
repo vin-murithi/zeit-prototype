@@ -14,6 +14,7 @@ Future<void> initSettings() async {
   SharePreferenceCache spCache = SharePreferenceCache();
   await spCache.init();
   await Settings.init(cacheProvider: spCache);
+  
 }
 
 //My main App Class

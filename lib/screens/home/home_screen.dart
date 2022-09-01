@@ -41,6 +41,10 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     getTaskList();
     selectedTaskName = taskList[0];
+    //Initialize duration values
+    session = getSessionDuration()['session']!;
+    shortBreak = getSessionDuration()['break']!;
+    time = session;
   }
 
   //sort Map

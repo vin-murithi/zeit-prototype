@@ -87,7 +87,7 @@ Delete all your session data
 -type something before deleting
 Feedback
 -Add ability to add anonymous feedback & Suggestions.
-Theatrics
+Theatrics and animations.
 -Once a 4/4 session finishes, the screen gets some nice animation akin to iphone's imessages
 -Pulsating buttons for first time users [Task Add, Start Pomodoro]
     Source: https://youtu.be/tATcalbChr4
@@ -106,8 +106,8 @@ Bugs
 -Make the dial radius depend on device width:)
 -Make keyboard dismissible on clicking anywhere else on screen. and the task input field as well.:)
 -Marked dates UI misbehaving:)
--Increase the button container size
--Apply Dark theme to delete alert dialogue in TaskHistory
+-Increase the button container size:)
+-Apply Dark theme to delete alert dialogue in TaskHistory:)
 
 **************Task Logs******************************
 25-07-2022

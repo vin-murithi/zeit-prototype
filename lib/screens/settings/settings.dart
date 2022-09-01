@@ -12,6 +12,15 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // Settings.getValue("key-dark-mode", false);
+    print(Settings.getValue("key-session-duration", 2));
+    print('Session Duration: ${getSessionDuration()['session']}');
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -113,7 +122,7 @@ class _SettingsPageState extends State<SettingsPage> {
         },
         selected: 2,
         onChange: (value) {
-          debugPrint('key-dropdown-email-view: $value');
+          debugPrint('key-session-duration: $value');
         },
       );
 //Account Settings tiles

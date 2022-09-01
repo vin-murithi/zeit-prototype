@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 
 //Colors
 //General
@@ -22,3 +23,34 @@ const kLongBreak = 2;
 // const kPomodoroSession = 60 * 25;
 // const kShortBreak = 60 * 5;
 // const kLongBreak = 60 * 25;
+
+Map<String, int> getSessionDuration() {
+  var sessionDuration = Settings.getValue("key-session-duration", 2);
+  Map<String, int> duration = {};
+  switch (sessionDuration) {
+    case 2:
+      {
+        duration['session'] = 25;
+        duration['break'] = 5;
+      }
+      break;
+    case 3:
+      {
+        duration['session'] = 50;
+        duration['break'] = 5;
+      }
+      break;
+    case 4:
+      {
+        duration['session'] = 100;
+        duration['break'] = 10;
+      }
+      break;
+    default:
+      {
+        duration['session'] = 25;
+        duration['break'] = 5;
+      }
+  }
+  return duration;
+}
