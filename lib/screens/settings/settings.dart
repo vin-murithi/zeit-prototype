@@ -16,7 +16,7 @@ class _SettingsPageState extends State<SettingsPage> {
     // TODO: implement initState
     super.initState();
     // Settings.getValue("key-dark-mode", false);
-    print(Settings.getValue("key-session-duration", 2));
+    print(Settings.getValue("key-session-duration",2));
     print('Session Duration: ${getSessionDuration()['session']}');
   }
 
