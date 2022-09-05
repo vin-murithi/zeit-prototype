@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zeit/constants.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
+import 'package:zeit/screens/home/home_screen.dart';
 
 class SettingsPage extends StatefulWidget {
   static const keyDarkMode = "key-dark-mode";
@@ -15,9 +16,6 @@ class _SettingsPageState extends State<SettingsPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // Settings.getValue("key-dark-mode", false);
-    print(Settings.getValue("key-session-duration",2));
-    print('Session Duration: ${getSessionDuration()['session']}');
   }
 
   @override
@@ -29,13 +27,12 @@ class _SettingsPageState extends State<SettingsPage> {
         leading: IconButton(
           icon: const Icon(Icons.chevron_left),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pop(
+                context, Settings.getValue("key-session-duration", 2));
           },
-          // color: kTertiaryColor,
           iconSize: 40,
         ),
         centerTitle: true,
-        // backgroundColor: kPrimaryColor,
         title: const Text(
           'Settings',
         ),

@@ -24,10 +24,9 @@ const kLongBreak = 2;
 // const kShortBreak = 60 * 5;
 // const kLongBreak = 60 * 25;
 
-Map<String, int> getSessionDuration() {
-  var sessionDuration = Settings.getValue("key-session-duration", 2);
+Map<String, int> getSessionDuration(sessionDurationInt) {
   Map<String, int> duration = {};
-  switch (sessionDuration) {
+  switch (sessionDurationInt) {
     case 2:
       {
         duration['session'] = 25;

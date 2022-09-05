@@ -8,7 +8,9 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -42,8 +44,9 @@ class _HomeScreenState extends State<HomeScreen> {
     getTaskList();
     selectedTaskName = taskList[0];
     //Initialize duration values
-    session = getSessionDuration()['session']!;
-    shortBreak = getSessionDuration()['break']!;
+    var sessionDurationInt = Settings.getValue("key-session-duration", 2);
+    session = getSessionDuration(sessionDurationInt)['session']!;
+    shortBreak = getSessionDuration(sessionDurationInt)['break']!;
     time = session;
   }
 
@@ -662,7 +665,15 @@ class _HomeScreenState extends State<HomeScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const SettingsPage()),
-            );
+            ).then((value) {
+              print('value from settings: $value');
+              setState(() {
+                session = getSessionDuration(value)['session']!;
+                shortBreak = getSessionDuration(value)['break']!;
+                time = session;
+              });
+              print('session: $session');
+            });
           },
           icon: const CircleAvatar(
               backgroundColor: kTertiaryColor,
