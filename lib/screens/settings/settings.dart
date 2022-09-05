@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zeit/constants.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
+import 'package:zeit/controllers/database.dart';
 import 'package:zeit/screens/home/home_screen.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -16,6 +17,47 @@ class _SettingsPageState extends State<SettingsPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+  }
+
+  //Delete Task
+  void showInputDeleteDialog() async {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            scrollable: true,
+            title: Center(
+              child: Text('Confirm Reset'),
+            ),
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            content: Center(
+              child: Text(
+                  'Are you sure you want to delete all your session Data?'),
+            ),
+            actions: [
+              MaterialButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Cancel'),
+              ),
+              MaterialButton(
+                color: kDanger,
+                onPressed: () {
+                  Database().deleteFile().then((value) =>
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text(
+                              'All your Data has been reset successfuly'))));
+                  Navigator.pop(context);
+                },
+                child: const Text(
+                  'Delete',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ],
+          );
+        });
   }
 
   @override
@@ -112,15 +154,15 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget buildSessionTimeTile() => DropDownSettingsTile<int>(
         title: 'Session Duration',
         settingKey: 'key-session-duration',
-        values: <int, String>{
+        values: const <int, String>{
           2: '25/5 Session/Break',
           3: '50/5 Session/Break',
           4: '100/10 Session/Break',
+          //Comment debug case when not in use
+          5: '2/1 Debug time',
         },
         selected: 2,
-        onChange: (value) {
-          debugPrint('key-session-duration: $value');
-        },
+        onChange: (value) {},
       );
 //Account Settings tiles
   Widget buildLogoutTile() => SimpleSettingsTile(
@@ -130,11 +172,12 @@ class _SettingsPageState extends State<SettingsPage> {
       onTap: () => ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Log Out Clicked'))));
   Widget buildDeleteAccountTile() => SimpleSettingsTile(
-      title: 'Delete account',
-      subtitle: 'Delete your account and all data',
+      title: 'Reset Statistics',
+      subtitle: 'Delete all session data from this account',
       leading: const Icon(Icons.delete),
-      onTap: () => ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Log Out Clicked'))));
+      onTap: () => showInputDeleteDialog());
+  // onTap: () => ScaffoldMessenger.of(context)
+  //     .showSnackBar(const SnackBar(content: Text('Log Out Clicked'))));
 //Feedback Tiles
   Widget buildReportBugTile() => SimpleSettingsTile(
       title: 'Report a bug',

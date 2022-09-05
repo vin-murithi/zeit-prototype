@@ -14,6 +14,7 @@ class _TasksState extends State<Tasks> {
   //Database Variable
   String page = 'No Tasks to display';
   Map taskData = {};
+  Map taskAndDuration = {};
   var taskHistoryList = [];
   List? database;
 
@@ -44,7 +45,17 @@ class _TasksState extends State<Tasks> {
   @override
   void initState() {
     super.initState();
-    loadTasks();
+    loadTasks().then((value) {
+      value.forEach((element) {
+        Map taskMap = element;
+        taskMap.forEach((key, value) {
+          List taskSessions = value;
+          taskSessions.forEach((element) {
+            taskAndDuration[key] = (element['sessionDuration'] / 60);
+          });
+        });
+      });
+    });
   }
 
   @override
@@ -59,11 +70,15 @@ class _TasksState extends State<Tasks> {
               late String taskName;
               late List taskSessions;
               late int sessionCount;
+              late double totalHours = 0.0;
 
               taskMap.forEach(
                 (key, value) {
                   taskName = key;
                   taskSessions = value;
+                  taskSessions.forEach((element) {
+                    totalHours += (element['sessionDuration'] / 60);
+                  });
                   sessionCount = taskSessions.isEmpty ? 0 : taskSessions.length;
                   taskData[taskName] = taskSessions.isEmpty ? {} : taskSessions;
                 },
@@ -80,7 +95,7 @@ class _TasksState extends State<Tasks> {
                     textScaleFactor: 1.3,
                   ),
                   trailing: Text(
-                    '| ${sessionCount / 2} hours',
+                    '| ${totalHours.toStringAsFixed(1)} hours',
                     textScaleFactor: 1.2,
                   ),
                   onTap: () {

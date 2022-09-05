@@ -33,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String taskInputFieldValue = '';
   int selectedTask = 0;
   List taskList = [
-    'Default',
+    'Default Task',
   ];
   String? selectedTaskName;
 
@@ -42,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     getTaskList();
-    selectedTaskName = taskList[0];
+    selectedTaskName = taskList[0].toString();
     //Initialize duration values
     var sessionDurationInt = Settings.getValue("key-session-duration", 2);
     session = getSessionDuration(sessionDurationInt)['session']!;
@@ -65,6 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void saveTask(newTask) async {
     setState(() {
       taskList.insert(0, newTask);
+      selectedTaskName = newTask;
     });
     // Map newTaskMap = {newTask.toString(): []};
     // await Database().writeDatabase(newTaskMap).then((value) {
@@ -90,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
         }
       });
       setState(() {
-        taskList.insert(0, 'Default');
+        taskList.insert(0, 'Default Task');
       });
     });
   }
@@ -126,10 +127,13 @@ class _HomeScreenState extends State<HomeScreen> {
           {
             'start': taskSessionStart.toString(),
             'end': taskSessionEnd.toString(),
-            'sessionCount': currentSessionCount
+            'sessionCount': currentSessionCount,
+            'sessionDuration': getSessionDuration(
+                Settings.getValue("key-session-duration", 2))['session'],
           }
         ]
       };
+      print('sessionData: $sessionData');
       //Add Session to database
       Database().writeDatabase(sessionData).then((value) => print('success'));
     }
@@ -392,7 +396,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     //get dropdown menu with task list
-    Widget getDropDown(taskList) {
+    Widget getDropDown() {
       //taskList
       return Container(
         width: deviceWidth * 0.7,
@@ -466,7 +470,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ));
             }),
       );
-      Widget dropDown = getDropDown(taskList);
+      Widget dropDown = getDropDown();
       if (taskListDisplayed) {
         return dropDown;
       } else {
@@ -557,7 +561,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               style: const TextStyle(
                                 fontSize: 17.0,
                                 fontWeight: FontWeight.w800,
-                                // color: kTextColor,
                               ),
                             ),
                           ],
@@ -666,13 +669,11 @@ class _HomeScreenState extends State<HomeScreen> {
               context,
               MaterialPageRoute(builder: (context) => const SettingsPage()),
             ).then((value) {
-              print('value from settings: $value');
               setState(() {
                 session = getSessionDuration(value)['session']!;
                 shortBreak = getSessionDuration(value)['break']!;
                 time = session;
               });
-              print('session: $session');
             });
           },
           icon: const CircleAvatar(

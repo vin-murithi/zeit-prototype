@@ -45,6 +45,13 @@ Map<String, int> getSessionDuration(sessionDurationInt) {
         duration['break'] = 10;
       }
       break;
+    //Comment Debug case when not in use
+    case 5:
+      {
+        duration['session'] = 2;
+        duration['break'] = 1;
+      }
+      break;
     default:
       {
         duration['session'] = 25;

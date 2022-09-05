@@ -19,6 +19,7 @@ class _SummaryState extends State<Summary> {
   Map<String, double> pieChartData = {};
   late var taskCount = 0;
   late var sessionCount = 0;
+  late double totalHoursInvested = 0;
   List<Color> pieColorList = [
     const Color(0xFF004C7B),
     const Color(0xFF0092FC),
@@ -79,15 +80,22 @@ class _SummaryState extends State<Summary> {
         taskMap!.forEach((key, value) {
           List taskSessions = value;
           String taskName = key.toString();
-          double taskHours = (taskSessions.length / 2);
+          double sessionTime = 0;
+          taskSessions.forEach((element) {
+            sessionTime += (element['sessionDuration'] / 60);
+            totalHoursInvested += (element['sessionDuration'] / 60);
+          });
           setState(() {
-            pieChartData[taskName] = taskHours;
+            pieChartData[taskName] = sessionTime;
+            // pieChartData[taskName] = taskHours;
             sessionCount += taskSessions.length;
           });
         });
         //get no of tasks
       });
+
       sortPieChartMap(pieChartData);
+      print('pieChartData: $pieChartData');
     });
   }
 
@@ -142,7 +150,7 @@ class _SummaryState extends State<Summary> {
                         children: [
                           Center(
                               child: Text(
-                            '${sessionCount / 2}',
+                            '${totalHoursInvested.toStringAsFixed(1)}',
                             textScaleFactor: 2.5,
                           )),
                           Text('Total Hours')

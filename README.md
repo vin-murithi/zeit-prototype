@@ -98,6 +98,10 @@ Add Cancel button when adding tasks.
 Notification
     -Notify once breaks and sessions end
 
+New User Guide
+Only tasks with atleast one complete sessions are logged
+    -if you add a task and dont complete a session it doesnt save
+
 
 Bugs
 -Delete and update between taskList and task map :)
@@ -108,6 +112,10 @@ Bugs
 -Marked dates UI misbehaving:)
 -Increase the button container size:)
 -Apply Dark theme to delete alert dialogue in TaskHistory:)
+-Add task selector in and out of widget tree instead of removing it's opacity
+-Make the added task appear first in task selector
+-Dont add task if already exists
+-Make tasklist in descending order of time invested.
 
 **************Task Logs******************************
 25-07-2022

@@ -29,6 +29,8 @@ class _TaskHistoryState extends State<TaskHistory> {
   List<DateTime> datesList = [];
   //List of end time of sessions in a selected day
   List<String>? listOfSessions;
+  double timeInvested = 0.0;
+  Map sessionsAndDurations = {};
   @override
   void initState() {
     // TODO: implement initState
@@ -41,10 +43,14 @@ class _TaskHistoryState extends State<TaskHistory> {
     setState(() {
       if (taskSessions.isEmpty) {
         datesList = [];
+        sessionsAndDurations = {};
       } else {
         for (var i = 0; i < taskSessions.length; i++) {
           datesList.add(DateTime.tryParse(taskSessions[i]['end'])!);
-          // print('datelist: $datesList');
+          taskSessions.forEach((element) {
+            sessionsAndDurations[DateTime.tryParse(element['end'])] =
+                element['sessionDuration'];
+          });
         }
         firstEntry = taskSessions[0];
         lastEntry = taskSessions[taskSessions.length - 1];
@@ -56,10 +62,17 @@ class _TaskHistoryState extends State<TaskHistory> {
         lastEntryDateString = DateFormat(DateFormat.YEAR_ABBR_MONTH_WEEKDAY_DAY)
             .format(lastEntryDate!);
         entryCount = widget.taskData.values.toList().first.length;
+        List sessionList = widget.taskData.values.toList().first;
+        sessionList.forEach(
+          (element) {
+            setState(() {
+              timeInvested += (element['sessionDuration'] / 60);
+            });
+          },
+        );
         taskName = widget.taskData.keys.toList().first;
       }
     });
-    print('task sessions: $taskSessions');
   }
 
   List returnDateList() {
@@ -69,6 +82,18 @@ class _TaskHistoryState extends State<TaskHistory> {
   //Return the a day's session activity as a list of session stop times.
   List getDaySessionActivity(selectedDay) {
     DateTime selectedDate = DateUtils.dateOnly(selectedDay);
+
+    double tTimeInvested = 0.0;
+    sessionsAndDurations.forEach((key, value) {
+      DateTime sessionDate = DateUtils.dateOnly(key);
+      if (sessionDate == selectedDate) {
+        tTimeInvested += (value / 60);
+      }
+    });
+    setState(() {
+      timeInvested = tTimeInvested;
+    });
+
     List<String> tlistOfSessions = [];
     datesList.forEach((element) {
       DateTime sessionDate = DateUtils.dateOnly(element);
@@ -82,7 +107,11 @@ class _TaskHistoryState extends State<TaskHistory> {
       theSelectedDay = selectedDay;
       entryCount = tlistOfSessions.length;
     });
-    print(listOfSessions);
+
+    //Print
+    // print('sessionsAndDurations: $sessionsAndDurations');
+    // print('selectedDate: $selectedDate');
+    // print('listOfSessions: $listOfSessions');
     return tlistOfSessions;
   }
 
@@ -100,8 +129,6 @@ class _TaskHistoryState extends State<TaskHistory> {
 
   //Delete Task
   void showDeleteDialog() async {
-    print('delete $taskName');
-
     showDialog(
         context: context,
         builder: (context) {
@@ -254,7 +281,7 @@ class _TaskHistoryState extends State<TaskHistory> {
                             children: [
                               Center(
                                   child: Text(
-                                '${entryCount / 2}',
+                                '${timeInvested.toStringAsFixed(2)}',
                                 textScaleFactor: 2,
                               )),
                               const Text('Total Hours Invested'),
