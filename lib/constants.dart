@@ -26,23 +26,24 @@ const kLongBreak = 2;
 
 Map<String, int> getSessionDuration(sessionDurationInt) {
   Map<String, int> duration = {};
+  int secToMin = 60;
   switch (sessionDurationInt) {
     case 2:
       {
-        duration['session'] = 25;
-        duration['break'] = 5;
+        duration['session'] = 25 * secToMin;
+        duration['break'] = 5 * secToMin;
       }
       break;
     case 3:
       {
-        duration['session'] = 50;
-        duration['break'] = 5;
+        duration['session'] = 50 * secToMin;
+        duration['break'] = 5 * secToMin;
       }
       break;
     case 4:
       {
-        duration['session'] = 100;
-        duration['break'] = 10;
+        duration['session'] = 100 * secToMin;
+        duration['break'] = 10 * secToMin;
       }
       break;
     //Comment Debug case when not in use

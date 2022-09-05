@@ -85,8 +85,13 @@ class _SettingsPageState extends State<SettingsPage> {
         children: [
           //User profile card
           buildUserProfileCard(),
-          buildDarkModeTile(context),
           //General Settings tiles
+          SettingsGroup(
+            title: 'Appearance',
+            children: <Widget>[
+              buildDarkModeTile(context),
+            ],
+          ),
           SettingsGroup(
             title: 'General Settings',
             children: <Widget>[
@@ -96,13 +101,22 @@ class _SettingsPageState extends State<SettingsPage> {
           //Account Settings tiles
           SettingsGroup(
             title: 'Account Settings',
-            children: <Widget>[buildLogoutTile(), buildDeleteAccountTile()],
+            children: <Widget>[
+              // buildLogoutTile(),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                child: buildDeleteAccountTile(),
+              ),
+            ],
           ),
           //Feedback  tiles
-          SettingsGroup(
-            title: 'Feedback',
-            children: <Widget>[buildReportBugTile(), buildGiveFeedbackTile()],
-          ),
+          // SettingsGroup(
+          //   title: 'Feedback',
+          //   children: <Widget>[
+          //     buildReportBugTile(),
+          //     buildGiveFeedbackTile(),
+          //   ],
+          // ),
         ],
       ),
     );
@@ -176,8 +190,7 @@ class _SettingsPageState extends State<SettingsPage> {
       subtitle: 'Delete all session data from this account',
       leading: const Icon(Icons.delete),
       onTap: () => showInputDeleteDialog());
-  // onTap: () => ScaffoldMessenger.of(context)
-  //     .showSnackBar(const SnackBar(content: Text('Log Out Clicked'))));
+
 //Feedback Tiles
   Widget buildReportBugTile() => SimpleSettingsTile(
       title: 'Report a bug',

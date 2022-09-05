@@ -83,8 +83,8 @@ Delete a task
 -refresh task List
 Settings page:)
 Dark mode:)
-Delete all your session data
--type something before deleting
+Delete all your session data:)
+-type something before deleting:)
 Feedback
 -Add ability to add anonymous feedback & Suggestions.
 Theatrics and animations.
@@ -92,9 +92,9 @@ Theatrics and animations.
 -Pulsating buttons for first time users [Task Add, Start Pomodoro]
     Source: https://youtu.be/tATcalbChr4
 Timing
--Allow for other Session Break configurations
-    -make them contants 25/5,  50/10, 100/20
-Add Cancel button when adding tasks.
+-Allow for other Session Break configurations:)
+    -make them contants 25/5,  50/10, 100/20:)
+Add Cancel button when adding tasks.:)
 Notification
     -Notify once breaks and sessions end
 
