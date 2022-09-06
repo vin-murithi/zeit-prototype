@@ -97,6 +97,8 @@ Timing
 Add Cancel button when adding tasks.:)
 Notification
     -Notify once breaks and sessions end
+Settings profile
+    -Allow changing of name and image.
 
 New User Guide
 Only tasks with atleast one complete sessions are logged

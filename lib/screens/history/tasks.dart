@@ -51,7 +51,7 @@ class _TasksState extends State<Tasks> {
         taskMap.forEach((key, value) {
           List taskSessions = value;
           taskSessions.forEach((element) {
-            taskAndDuration[key] = (element['sessionDuration'] / 60);
+            taskAndDuration[key] = (element['sessionDuration'] / 3600);
           });
         });
       });
@@ -77,7 +77,7 @@ class _TasksState extends State<Tasks> {
                   taskName = key;
                   taskSessions = value;
                   taskSessions.forEach((element) {
-                    totalHours += (element['sessionDuration'] / 60);
+                    totalHours += (element['sessionDuration'] / 3600);
                   });
                   sessionCount = taskSessions.isEmpty ? 0 : taskSessions.length;
                   taskData[taskName] = taskSessions.isEmpty ? {} : taskSessions;

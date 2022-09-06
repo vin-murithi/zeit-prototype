@@ -66,7 +66,7 @@ class _TaskHistoryState extends State<TaskHistory> {
         sessionList.forEach(
           (element) {
             setState(() {
-              timeInvested += (element['sessionDuration'] / 60);
+              timeInvested += (element['sessionDuration'] / 3600);
             });
           },
         );
@@ -87,7 +87,7 @@ class _TaskHistoryState extends State<TaskHistory> {
     sessionsAndDurations.forEach((key, value) {
       DateTime sessionDate = DateUtils.dateOnly(key);
       if (sessionDate == selectedDate) {
-        tTimeInvested += (value / 60);
+        tTimeInvested += (value / 3600);
       }
     });
     setState(() {

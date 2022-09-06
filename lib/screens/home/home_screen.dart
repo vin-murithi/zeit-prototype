@@ -32,9 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool taskListDisplayed = true;
   String taskInputFieldValue = '';
   int selectedTask = 0;
-  List taskList = [
-    'Default Task',
-  ];
+  List taskList = ['Default Task']; 
   String? selectedTaskName;
 
   //Save new added task
@@ -83,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
       taskListMap = sortTaskMap(taskListMap);
       taskList = [];
       taskListMap.forEach((key, value) {
-        if (key != 'Default') {
+        if (key != 'Default Task') {
           setState(() {
             taskList.add(key);
             selectedTask = 0;

@@ -82,8 +82,8 @@ class _SummaryState extends State<Summary> {
           String taskName = key.toString();
           double sessionTime = 0;
           taskSessions.forEach((element) {
-            sessionTime += (element['sessionDuration'] / 60);
-            totalHoursInvested += (element['sessionDuration'] / 60);
+            sessionTime += (element['sessionDuration'] / 3600);
+            totalHoursInvested += (element['sessionDuration'] / 3600);
           });
           setState(() {
             pieChartData[taskName] = sessionTime;

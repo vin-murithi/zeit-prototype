@@ -62,6 +62,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    double deviceWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -129,30 +130,44 @@ class _SettingsPageState extends State<SettingsPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const CircleAvatar(
-                radius: 50.0,
-                backgroundImage: AssetImage('assets/images/penguin.jpg'),
-                backgroundColor: Colors.transparent,
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.2,
+                child: const CircleAvatar(
+                  radius: 50.0,
+                  backgroundImage: AssetImage('assets/images/user.png'),
+                  backgroundColor: Colors.transparent,
+                ),
               ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(5, 0, 0, 5),
-                      child: Text(
-                        'Vin Murithi',
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.35,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Zeit User',
                         textScaleFactor: 1.5,
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(5, 0, 0, 5),
-                      child: Text('vin-murithi-zeit'),
-                    ),
-                  ],
+                      // Text('Time for what matters'),
+                    ],
+                  ),
                 ),
-              )
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.3,
+                child: GestureDetector(
+                    onTap: (() {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text('Profiles not yet supported')));
+                    }),
+                    child: Align(
+                        alignment: Alignment.centerRight,
+                        child: CircleAvatar(
+                            backgroundColor: Theme.of(context).shadowColor,
+                            child: Center(child: Icon(Icons.edit))))),
+              ),
             ],
           ),
         ],
