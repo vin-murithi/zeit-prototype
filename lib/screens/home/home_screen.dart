@@ -6,6 +6,7 @@ import 'package:zeit/screens/history/history.dart';
 import 'package:zeit/screens/settings/settings.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
+import 'package:zeit/services/local_notifications.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
@@ -32,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool taskListDisplayed = true;
   String taskInputFieldValue = '';
   int selectedTask = 0;
-  List taskList = ['Default Task']; 
+  List taskList = ['Default Task'];
   String? selectedTaskName;
 
   //Save new added task
@@ -104,10 +105,22 @@ class _HomeScreenState extends State<HomeScreen> {
     final minutes = (time ~/ 60).toString().padLeft(2, '0');
     final seconds = time.remainder(60).toString().padLeft(2, '0');
     //Play tone
-    void playTone(tone) async {
-      // String soundAssetsPath = 'sounds/';
+    void playTone(tone, {int? event}) async {
       final player = AudioPlayer();
       await player.play(AssetSource('sounds/$tone.mp3'));
+      if (event == 0) {
+        LocalNotifications().showLocalNotification(
+          title: 'Session Complete',
+          body: 'Tap to Open Zeit',
+          payload: 'complete',
+        );
+      } else if (event == 1) {
+        LocalNotifications().showLocalNotification(
+          title: 'Break Complete',
+          body: 'Tap to Open Zeit',
+          payload: 'complete',
+        );
+      }
     }
 
     //Log session
@@ -147,9 +160,9 @@ class _HomeScreenState extends State<HomeScreen> {
           });
         } else {
           timer.cancel();
-          playTone('sessionEnd');
           //start break if prev period was a session
           if (period == session) {
+            playTone('sessionEnd', event: 0);
             setState(() {
               time = shortBreak;
               currentSessionCount += 1;
@@ -158,6 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
             });
             logSession();
           } else if (period == shortBreak) {
+            playTone('sessionEnd', event: 1);
             if (currentSessionCount == 4) {
               print('pomodoro complete');
               setState(() {
