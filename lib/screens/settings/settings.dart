@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:zeit/constants.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:zeit/controllers/database.dart';
-import 'package:zeit/screens/home/home_screen.dart';
 
 class SettingsPage extends StatefulWidget {
   static const keyDarkMode = "key-dark-mode";
@@ -13,13 +12,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
-  //Delete Task
+  //Delete Task Dialog
   void showInputDeleteDialog() async {
     showDialog(
         context: context,
@@ -62,6 +55,9 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    bool showTextInput = false;
+    final controller1 = TextEditingController();
+    final controller2 = TextEditingController();
     double deviceWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
@@ -96,7 +92,8 @@ class _SettingsPageState extends State<SettingsPage> {
           SettingsGroup(
             title: 'General Settings',
             children: <Widget>[
-              buildSessionTimeTile(),
+              // buildSessionTimeTile(),
+              buildChangeDurationTile(showTextInput, controller1, controller2),
             ],
           ),
           //Account Settings tiles
@@ -172,6 +169,7 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
         ],
       );
+
 //General Settings tiles
   Widget buildDarkModeTile(BuildContext context) => SwitchSettingsTile(
       settingKey: 'key-dark-mode',
@@ -179,20 +177,6 @@ class _SettingsPageState extends State<SettingsPage> {
       subtitle: '',
       leading: const Icon(Icons.contrast),
       onChange: (_) {});
-  //ToDo: use DropDown Tile
-  Widget buildSessionTimeTile() => DropDownSettingsTile<int>(
-        title: 'Session Duration',
-        settingKey: 'key-session-duration',
-        values: const <int, String>{
-          2: '25/5 Session/Break',
-          3: '50/5 Session/Break',
-          4: '100/10 Session/Break',
-          //Comment debug case when not in use
-          5: '2/1 Debug time',
-        },
-        selected: 2,
-        onChange: (value) {},
-      );
 //Account Settings tiles
   Widget buildLogoutTile() => SimpleSettingsTile(
       title: 'Logout',
@@ -205,6 +189,32 @@ class _SettingsPageState extends State<SettingsPage> {
       subtitle: 'Delete all session data from this account',
       leading: const Icon(Icons.delete),
       onTap: () => showInputDeleteDialog());
+
+//Change duration SettingTile
+  Widget buildChangeDurationTile(showTextInput, controller1, controller2) {
+    return SimpleSettingsTile(
+      title: 'Session Durations',
+      subtitle: 'Change Session and break durations',
+      leading: const Icon(Icons.timer),
+      onTap: () => showModalBottomSheet(
+        context: context,
+        elevation: 5,
+        isScrollControlled: showTextInput,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        builder: (context) {
+          return Padding(
+            padding: MediaQuery.of(context).viewInsets,
+            child: Container(
+              child: SingleChildScrollView(child: const MyBottomSheet()),
+              color: Theme.of(context).scaffoldBackgroundColor,
+            ),
+          );
+        },
+      ),
+    );
+  }
 
 //Feedback Tiles
   Widget buildReportBugTile() => SimpleSettingsTile(
@@ -219,4 +229,296 @@ class _SettingsPageState extends State<SettingsPage> {
       leading: const Icon(Icons.thumb_up),
       onTap: () => ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Send Feedback Clicked'))));
+}
+
+class MyBottomSheet extends StatefulWidget {
+  const MyBottomSheet({Key? key}) : super(key: key);
+
+  @override
+  State<MyBottomSheet> createState() => _MyBottomSheetState();
+}
+
+class _MyBottomSheetState extends State<MyBottomSheet> {
+  bool showTextInput = false;
+  var sessionDuration;
+  var selectedDuration;
+  int? setSessionMinutes;
+  int? setBreakMinutes;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    sessionDuration = Settings.getValue("key-session", 25);
+    if (sessionDuration == 25) {
+      selectedDuration = 1;
+    } else if (sessionDuration == 50) {
+      selectedDuration = 2;
+    } else if (sessionDuration == 100) {
+      selectedDuration = 3;
+    } else {
+      selectedDuration = 4;
+      setSessionMinutes = sessionDuration;
+      setBreakMinutes = Settings.getValue("key-break", 5);
+    }
+  }
+
+  final controller1 = TextEditingController();
+  final controller2 = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    if (!showTextInput) {
+      return SizedBox(
+        height: 230,
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Center(
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: [
+                GestureDetector(
+                  onTap: () async {
+                    print('Pomodoro clicked');
+                    setState(() {
+                      selectedDuration = 1;
+                    });
+                    await Settings.setValue('key-session', 25);
+                    await Settings.setValue('key-break', 5);
+                  },
+                  child: SizedBox(
+                    width: 250,
+                    height: 100,
+                    child: Card(
+                      color: Theme.of(context).scaffoldBackgroundColor,
+                      elevation: 10,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          getCircleMarker(1),
+                          Icon(
+                            Icons.timer,
+                            size: 50,
+                          ),
+                          Text(
+                            'Classic Pomodoro',
+                            textScaleFactor: 1.2,
+                          ),
+                          Text(
+                            '25 Minutes session',
+                            textScaleFactor: 1,
+                          ),
+                          Text(
+                            '5 Minutes break',
+                            textScaleFactor: 1,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    await Settings.setValue('key-session', 50);
+                    await Settings.setValue('key-break', 10);
+                    setState(() {
+                      selectedDuration = 2;
+                    });
+                    print('concetration clicked');
+                  },
+                  child: SizedBox(
+                    width: 250,
+                    height: 100,
+                    child: Card(
+                      color: Theme.of(context).scaffoldBackgroundColor,
+                      elevation: 10,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          getCircleMarker(2),
+                          Icon(
+                            Icons.access_time_filled,
+                            size: 50,
+                          ),
+                          Text(
+                            'Concetration Station',
+                            textScaleFactor: 1.2,
+                          ),
+                          Text(
+                            '50 Minutes session',
+                            textScaleFactor: 1,
+                          ),
+                          Text(
+                            '10 Minutes break',
+                            textScaleFactor: 1,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    await Settings.setValue('key-session', 100);
+                    await Settings.setValue('key-break', 20);
+                    setState(() {
+                      selectedDuration = 3;
+                    });
+                    print('transcedent clicked');
+                  },
+                  child: SizedBox(
+                    width: 250,
+                    height: 100,
+                    child: Card(
+                      color: Theme.of(context).scaffoldBackgroundColor,
+                      elevation: 10,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          getCircleMarker(3),
+                          Icon(
+                            Icons.settings_accessibility_rounded,
+                            size: 50,
+                          ),
+                          Text(
+                            'Transcedent',
+                            textScaleFactor: 1.2,
+                          ),
+                          Text(
+                            '100 Minutes session',
+                            textScaleFactor: 1,
+                          ),
+                          Text(
+                            '20 Minutes break',
+                            textScaleFactor: 1,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    print('custom clicked');
+                    setState(() {
+                      showTextInput = showTextInput ? false : true;
+                    });
+                    setState(() {
+                      selectedDuration = 1;
+                    });
+                    print(showTextInput);
+                  },
+                  child: SizedBox(
+                    width: 250,
+                    height: 100,
+                    child: Card(
+                      color: Theme.of(context).scaffoldBackgroundColor,
+                      elevation: 10,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          getCircleMarker(4),
+                          Icon(
+                            Icons.add_alarm,
+                            size: 50,
+                          ),
+                          Text(
+                            'Custom Duration',
+                            textScaleFactor: 1.2,
+                          ),
+                          returnCustomDurations(),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    } else {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(10, 20, 0, 10),
+            child: Text(
+              'Enter your custom durations here',
+              textScaleFactor: 1.3,
+            ),
+          ),
+          Divider(),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
+            child: TextField(
+              controller: controller1,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Session Duration in Minutes',
+                hintText: 'Add your Custom Session Time',
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
+            child: TextField(
+              controller: controller2,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Break Duration in Minutes',
+                hintText: 'Add your Custom Break Duration',
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: kTertiaryColor,
+                minimumSize: Size(150, 48),
+              ),
+              onPressed: () async {
+                await Settings.setValue(
+                    'key-session', int.parse(controller1.text));
+                await Settings.setValue(
+                    'key-break', int.parse(controller2.text));
+              },
+              child: Text(
+                'Update Durations',
+                textScaleFactor: 1.1,
+              ),
+            ),
+          ),
+        ],
+      );
+    }
+  }
+
+  //Get a card marker for selected
+  Widget getCircleMarker(passedId) {
+    if (passedId == selectedDuration) {
+      return Align(
+          alignment: Alignment.topCenter, child: Icon(Icons.check_circle));
+    } else {
+      return Align(
+          alignment: Alignment.topCenter, child: Icon(Icons.circle_outlined));
+    }
+  }
+
+  Widget returnCustomDurations() {
+    if (setSessionMinutes != null) {
+      return Column(
+        children: [
+          Text('$setSessionMinutes Minutes Session'),
+          Text('$setBreakMinutes Minutes Break'),
+        ],
+      );
+    } else {
+      return Column(
+        children: [
+          Text('Specify your own custom durations'),
+          Text('Click to set'),
+        ],
+      );
+    }
+  }
 }

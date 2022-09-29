@@ -44,9 +44,15 @@ class _HomeScreenState extends State<HomeScreen> {
     selectedTaskName = taskList[0].toString();
     //Initialize duration values
     var sessionDurationInt = Settings.getValue("key-session-duration", 2);
-    session = getSessionDuration(sessionDurationInt)['session']!;
-    shortBreak = getSessionDuration(sessionDurationInt)['break']!;
+    var sessionDuration = Settings.getValue("key-session", 25);
+    var breakDuration = Settings.getValue("key-break", 5);
+    // session = getSessionDuration(sessionDurationInt)['session']!;
+    // shortBreak = getSessionDuration(sessionDurationInt)['break']!;
+    session = sessionDuration * 60;
+    shortBreak = breakDuration * 60;
     time = session;
+    print('sessionDuration: $sessionDuration');
+    print('breakDuration: $breakDuration');
   }
 
   //sort Map
@@ -139,8 +145,7 @@ class _HomeScreenState extends State<HomeScreen> {
             'start': taskSessionStart.toString(),
             'end': taskSessionEnd.toString(),
             'sessionCount': currentSessionCount,
-            'sessionDuration': getSessionDuration(
-                Settings.getValue("key-session-duration", 2))['session'],
+            'sessionDuration': (Settings.getValue("key-session", 25) * 60),
           }
         ]
       };
@@ -318,7 +323,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           {isPaused ? resumePomodoro() : pausePomodoro()},
                       child: Text(isPaused ? 'Resume' : 'Pause'),
                       style: ElevatedButton.styleFrom(
-                        primary: kTertiaryColor,
+                        backgroundColor: kTertiaryColor,
                         minimumSize: Size(150, 48),
                       ),
                     ),
@@ -682,8 +687,10 @@ class _HomeScreenState extends State<HomeScreen> {
               MaterialPageRoute(builder: (context) => const SettingsPage()),
             ).then((value) {
               setState(() {
-                session = getSessionDuration(value)['session']!;
-                shortBreak = getSessionDuration(value)['break']!;
+                var sessionDuration = Settings.getValue("key-session", 25);
+                var breakDuration = Settings.getValue("key-break", 5);
+                session = sessionDuration * 60;
+                shortBreak = breakDuration * 60;
                 time = session;
               });
             });

@@ -99,7 +99,12 @@ Notification
     -Notify once breaks and sessions end
 Settings profile
     -Allow changing of name and image.
-
+Add A custom durations option
+    classic pomodoro
+    competent concetration
+    stellar concetration
+    custom
+Add A firebase backend
 New User Guide
 Only tasks with atleast one complete sessions are logged
     -if you add a task and dont complete a session it doesnt save
