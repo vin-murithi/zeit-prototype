@@ -192,26 +192,29 @@ class _SettingsPageState extends State<SettingsPage> {
 
 //Change duration SettingTile
   Widget buildChangeDurationTile(showTextInput, controller1, controller2) {
-    return SimpleSettingsTile(
-      title: 'Session Durations',
-      subtitle: 'Change Session and break durations',
-      leading: const Icon(Icons.timer),
-      onTap: () => showModalBottomSheet(
-        context: context,
-        elevation: 5,
-        isScrollControlled: showTextInput,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0, 10 , 0, 0),
+      child: SimpleSettingsTile(
+        title: 'Session Durations',
+        subtitle: 'Change Session and break durations',
+        leading: const Icon(Icons.timer),
+        onTap: () => showModalBottomSheet(
+          context: context,
+          elevation: 5,
+          isScrollControlled: showTextInput,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          builder: (context) {
+            return Padding(
+              padding: MediaQuery.of(context).viewInsets,
+              child: Container(
+                child: SingleChildScrollView(child: const MyBottomSheet()),
+                color: Theme.of(context).scaffoldBackgroundColor,
+              ),
+            );
+          },
         ),
-        builder: (context) {
-          return Padding(
-            padding: MediaQuery.of(context).viewInsets,
-            child: Container(
-              child: SingleChildScrollView(child: const MyBottomSheet()),
-              color: Theme.of(context).scaffoldBackgroundColor,
-            ),
-          );
-        },
       ),
     );
   }
@@ -481,6 +484,10 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
                     'key-session', int.parse(controller1.text));
                 await Settings.setValue(
                     'key-break', int.parse(controller2.text));
+                setState(() {
+                  showTextInput = false;
+                  selectedDuration = 4;
+                });
               },
               child: Text(
                 'Update Durations',
